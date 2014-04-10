@@ -1,61 +1,43 @@
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class PE452 {
-	final static int m=10, n=7; // max so far : 10 et 7
+	final static int m=10, n=10; // max so far : 10 et 9
+	static int compteur, a;
 	
 	public static void main(String[] args) {
-		int compteur=0;
-		
-		ArrayList<Integer> a=new ArrayList<Integer>();
-		a.add(new Integer(5));
-		System.out.println(a.size());
-		int NewElem=17;
-		addElementToList(a, NewElem);
-		System.out.println(a.size());
-		System.out.println(a.get(a.size()-1).intValue());
-		System.out.println(a.get(a.size()-2).intValue());
-	}
-
-	private static void addElementToList(ArrayList<Integer> a, int newElem) {
-		a.add(new Integer(newElem));
-		
-	}
-
-	public static void main2(String[] args) {
-		int compteur=0;
-		
-		// creation du tableau
-		byte tab[][]=new byte[(int) Math.pow(m, n)][n];
-		
-		// remplissage
-		traiterRecursivement(tab, 0, (int) Math.pow(m, n));
-		
-		// verif
-//		afficher(tab,(int) Math.pow(m, n),n);
-		
-		// on enleve les n uples dont le produit > m et on compte ce qu'il reste
-		for(int i=0; i<(int) Math.pow(m, n) ; i++)
-		{
-			int produit=tab[i][0];
-			boolean depasseLimite=false;
-			for(int j=1;!depasseLimite && j<n;j++)
-			{
-				produit*=tab[i][j];
-				if(produit>m)
-				{
-					depasseLimite=true;
-					//break; // TODO a ameliorer / verifier
-				}
-			}
-			if(!depasseLimite)
-				compteur++;
-		}
-		
-		System.out.println("la solution du problème est: "+compteur);
-		System.out.println("modulo-n de la solution: "+ compteur%n);
+		compteur=0;
+		//a=0;
+		long debut= System.nanoTime();
+		traiterRecursivement2(1, n);
+		long fin= System.nanoTime();
+		System.out.println("La solution au problème est: "+compteur);
+		System.out.println("Le calcul a prit: "+ (fin-debut)/1000 +"ms");
 	}
 	
+	static void traiterRecursivement2(int prec, int d)
+	{
+		if(d==0)
+		{
+			compteur++;
+			return;
+		}
+		else
+		{
+			for(int i=0 ; i<m ; i++)
+			{
+				int produit=prec*(i+1);
+				if(produit>m)
+					return;
+				else
+				{
+					traiterRecursivement2(produit, d-1);
+				}
+			}
+		}
+	}
+
 	static void traiterRecursivement(byte[][]mat, int y0, int yL)
 	{
 		final int xL=(int)(Math.log10(yL)/Math.log10(m));
@@ -72,19 +54,6 @@ public class PE452 {
 		{
 			for(int i=0;i<m;i++)
 				traiterRecursivement(mat, y0+i*yL/m, yL/m);
-		}
-	}
-	
-	static void afficher(byte[][]mat, int tailleX, int tailleY)
-	{
-		// affiche la matrice en inversant les coordonnees x et y
-		for(int i=0;i<tailleX;i++)
-		{
-			for(int j=0;j<tailleY;j++)
-			{
-				System.out.print("|"+mat[i][j]+"|");
-			}
-			System.out.println();
 		}
 	}
 

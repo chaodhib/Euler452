@@ -12,14 +12,8 @@ public class PE452 {
 		traiterRecursivement(tab, 0, (int) Math.pow(m, n));
 		
 		// verif
-		//afficher(tab,(int) Math.pow(m, n),n);
+//		afficher(tab,(int) Math.pow(m, n),n);
 		
-/**		// tri par ordre croissant
-		for (int i=0;i<(m^n);i++)
-			Arrays.sort(tab[i]);
-		
-		// on enleve les doublets
-**/			
 		// on enleve les n uples dont le produit > m et on compte ce qu'il reste
 		for(int i=0; i<(int) Math.pow(m, n) ; i++)
 		{

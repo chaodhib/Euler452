@@ -1,8 +1,28 @@
+import java.util.ArrayList;
+
 
 public class PE452 {
 	final static int m=10, n=7; // max so far : 10 et 7
-
+	
 	public static void main(String[] args) {
+		int compteur=0;
+		
+		ArrayList<Integer> a=new ArrayList<Integer>();
+		a.add(new Integer(5));
+		System.out.println(a.size());
+		int NewElem=17;
+		addElementToList(a, NewElem);
+		System.out.println(a.size());
+		System.out.println(a.get(a.size()-1).intValue());
+		System.out.println(a.get(a.size()-2).intValue());
+	}
+
+	private static void addElementToList(ArrayList<Integer> a, int newElem) {
+		a.add(new Integer(newElem));
+		
+	}
+
+	public static void main2(String[] args) {
 		int compteur=0;
 		
 		// creation du tableau

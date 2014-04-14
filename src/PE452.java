@@ -1,19 +1,23 @@
-import java.util.Calendar;
-import java.util.Date;
-
 
 public class PE452 {
-	final static int m=10, n=10; // max so far : 10 et 9
+	final static int m=2, n=4; // max so far : 10 et 9
 	static int compteur, a;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
+		//findSolution();
+		createAndShow.process(m,  n);
+	}
+	
+	static void findSolution()
+	{
 		compteur=0;
 		//a=0;
 		long debut= System.nanoTime();
 		traiterRecursivement2(1, n);
 		long fin= System.nanoTime();
 		System.out.println("La solution au problème est: "+compteur);
-		System.out.println("Le calcul a prit: "+ (fin-debut)/1000 +"ms");
+		System.out.println("Le calcul a prit: "+ (fin-debut)/1000000 +"ms");
 	}
 	
 	static void traiterRecursivement2(int prec, int d)
@@ -32,6 +36,7 @@ public class PE452 {
 					return;
 				else
 				{
+					//System.out.println("La solution au problème est: "+compteur);
 					traiterRecursivement2(produit, d-1);
 				}
 			}

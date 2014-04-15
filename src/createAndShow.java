@@ -47,6 +47,11 @@ public class createAndShow {
 			System.out.println();
 		}
 	}
+	
+	static void analyse(int m, int n)
+	{
+		
+	}
 }
 
 

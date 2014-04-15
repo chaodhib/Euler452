@@ -1,6 +1,6 @@
 
 public class PE452 {
-	final static int m=10, n=20; // max so far : 10 et 9
+	final static int m=10, n=30; // max so far : 10 et 9
 	static int compteur, a;
 	
 	public static void main(String[] args) 
@@ -31,7 +31,10 @@ public class PE452 {
 		System.out.println(doPart2(k));
 		*/
 		
+		System.out.println("factoriel de 0 :"+factorial(0));
 		findSolution2();
+//		int k[]={19,0,0,0,0,0,0,0,0,1};
+//		doPart3(k);
 	}
 	
 	private static int testfonction(int a, int b) 
@@ -169,11 +172,12 @@ public class PE452 {
 		return true;
 	}
 	
-	static int doPart3(int k[]) // calcul le nbre de n-uples associés au vecteur k 
+	static long doPart3(int k[]) // calcul le nbre de n-uples associés au vecteur k 
 	{							// TODO optimisable en utilisant la simplification de division de factorielles
-		int answer=factorial(n);
+		long answer=factorial(n);
 		for(int i=0; i<k.length;i++)
 			answer/=factorial(k[i]);
+			
 		
 		show(k);
 		System.out.println("  et un compte associe de :" +answer);
@@ -186,13 +190,14 @@ public class PE452 {
 			System.out.print("|"+k[i]+"|");
 	}
 
-	private static int factorial(int n2)	// n2 >=0  
+	private static long factorial(int n2)	// n2 >=0  
 	{										//TODO optimisable en utilisant le fast algo voir site web
-		int ans=1;
+		long ans=1;
 		while(n2>1)
 		{
 			ans*=n2;
 			n2--;
+//			System.out.println("ans :" +ans);
 		}
 			
 		return ans;

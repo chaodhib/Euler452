@@ -1,0 +1,20 @@
+en utilisant if..if..elsepow dans doPart2
+
+Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 54ms
+Pour m: 11 et n: 11 La solution au problème est: 716 et le calcul a pris: 136ms
+Pour m: 12 et n: 12 La solution au problème est: 1805 et le calcul a pris: 394ms
+Pour m: 13 et n: 13 La solution au problème est: 2237 et le calcul a pris: 1425ms
+Pour m: 14 et n: 14 La solution au problème est: 2913 et le calcul a pris: 5469ms
+Pour m: 15 et n: 15 La solution au problème est: 3711 et le calcul a pris: 25713ms
+Pour m: 16 et n: 16 La solution au problème est: 8262 et le calcul a pris: 86522ms
+Pour m: 17 et n: 17 La solution au problème est: 10527 et le calcul a pris: 360418ms
+Pour m: 18 et n: 18 La solution au problème est: 345420 et le calcul a pris: 1459336ms
+
+
+Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 21ms
+Pour m: 11 et n: 11 La solution au problème est: 716 et le calcul a pris: 75ms
+Pour m: 12 et n: 12 La solution au problème est: 1805 et le calcul a pris: 215ms
+Pour m: 13 et n: 13 La solution au problème est: 2237 et le calcul a pris: 785ms
+Pour m: 14 et n: 14 La solution au problème est: 2913 et le calcul a pris: 2708ms
+Pour m: 15 et n: 15 La solution au problème est: 3711 et le calcul a pris: 10111ms
+Pour m: 16 et n: 16 La solution au problème est: 8261 et le calcul a pris: 40832ms

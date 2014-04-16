@@ -1,122 +1,47 @@
 
 public class PE452 {
-	final static int m=10, n=30; // max so far : 10 et 9
-	static int compteur, a;
+	static int m=10, n=m; // max so far :  15 et 15 en 22s
+	static long compteur;
+	
+	static int k[];
 	
 	public static void main(String[] args) 
 	{
+//		int k[]={0,0,0,2,0,0,2,0,0,0,0,2,0,0,9};
+//		System.out.println(doPart2(k));
 		
-//		createAndShow.process(m,  n);
-//		findSolution();
-		
-		/*
-		int a=13, b=5;
-		long debut= System.nanoTime();
-		for(int i=0;i<10000;i++)
+		while(true)
 		{
-			Math.pow(a, b);
+			k=new int[m];
+			findSolution2();
+			m+=10;
+			n=m;
 		}
-		System.out.println("La solution du calcul est: "+ Math.pow(a, b));
-		long fin= System.nanoTime();
-		System.out.println("Le calcul a prit: "+ (fin-debut)/1000000 +"ms");
-		
-		debut= System.nanoTime();
-		System.out.println("La solution du calcul est: "+ testfonction(a, b));
-		fin= System.nanoTime();
-		System.out.println("Le calcul a prit: "+ (fin-debut)/1000000 +"ms");
-		*/
-		
-		/*
-		int k[]={0,0,2,0};
-		System.out.println(doPart2(k));
-		*/
-		
-		System.out.println("factoriel de 0 :"+factorial(0));
-		findSolution2();
-//		int k[]={19,0,0,0,0,0,0,0,0,1};
-//		doPart3(k);
-	}
-	
-	private static int testfonction(int a, int b) 
-	{
-		for(int i=0;i<10000;i++)
-		{
-			pow(a,b);
-		}
-		return pow(a,b);
-		
-	}
 
-	static void findSolution()
-	{
-		compteur=0;
-		//a=0;
-		long debut= System.nanoTime();
-		traiterRecursivement2(1, n);
-		long fin= System.nanoTime();
-		System.out.println("La solution au problème est: "+compteur);
-		System.out.println("Le calcul a prit: "+ (fin-debut)/1000000 +"ms");
-	}
-	
-	static void traiterRecursivement2(int prec, int d)
-	{
-		if(d==0)
-		{
-			compteur++;
-			return;
-		}
-		else
-		{
-			for(int i=0 ; i<m ; i++)
-			{
-				int produit=prec*(i+1);
-				if(produit>m)
-					return;
-				else
-				{
-					//System.out.println("La solution au probleme est: "+compteur);
-					traiterRecursivement2(produit, d-1);
-				}
-			}
-		}
-	}
-
-	static void traiterRecursivement(byte[][]mat, int y0, int yL)
-	{
-		final int xL=(int)(Math.log10(yL)/Math.log10(m));
-		
-		for(int i=0 ; i<m ; i++)
-		{
-			for(int j=y0+i*yL/m; j!=y0+(i+1)*yL/m ;j++)
-				mat[j][n-xL]=(byte)(i+1);
-		}
-			
-		if(yL==m)
-			return;
-		else
-		{
-			for(int i=0;i<m;i++)
-				traiterRecursivement(mat, y0+i*yL/m, yL/m);
-		}
 	}
 	
 	static void findSolution2()
 	{
-		int k[]=new int[m];
 		compteur=0;
 		long debut= System.nanoTime();
-		doPartX(0, m, k); // <================== VERIFIER PARAMETRES
+		doPartX(0, 1, m);
 		long fin= System.nanoTime();
-		System.out.println("La solution au problème est: "+compteur);
-		System.out.println("Le calcul a prit: "+ (fin-debut)/1000000 +"ms");
+		System.out.print("Pour m: "+m+" et n: "+n);
+		System.out.print(" La solution au problème est: "+compteur);
+		System.out.println(" et le calcul a pris: "+ (fin-debut)/1000000 +"ms");
 	}
 	
-	static void doPartX(int prec, int d, int k[])
+	/*
+	static void doPartX(int prec, int d)
 	{
 		if(d==0)
 		{
 			if(doPart2(k) && prec==n)
-				compteur+=doPart3(k);
+			{
+//				show(k); System.out.println();
+				compteur+=doPart3v2(k);
+			}
+				
 			return;
 		}
 		else
@@ -129,25 +54,50 @@ public class PE452 {
 				else
 				{
 					k[m-d]=i;
-					doPartX(somme, d-1, k);
+					doPartX(somme, d-1);
+				}
+			}
+		}
+	}
+	*/
+	
+	static void doPartX(int sum0, int prod0, int d)
+	{
+		if(d==0)
+		{
+			//if(doPart2(k) && sum0==n)
+			if(sum0==n)
+			{
+//				show(k); System.out.println();
+				compteur+=doPart3v2(k);
+			}
+				
+			return;
+		}
+		else
+		{
+			for(int i=0 ; i<=n ; i++)
+			{
+				int sum=sum0+i;
+				if(sum>n)
+					return;
+				else
+				{
+					long prod=prod0*ipow(m-d+1, i);
+					if(prod>m)
+						return;
+					else
+					{
+						k[m-d]=i;
+						doPartX(sum, (int)prod, d-1);
+					}
+					
 				}
 			}
 		}
 	}
 	
-	static void traiterParts()
-	{
-		int k[]=new int[m];
-		compteur=0;
-		
-		for(int i=0; i< ipow(n+1,m); i++)
-		{
-			;
-		}
-	}
-	
-	
-	
+	/*
 	static boolean doPart1(int k[])
 	{
 		int somme=0;
@@ -155,18 +105,32 @@ public class PE452 {
 			somme+=k[i];
 		return somme==n;
 	}
+	*/
 	
 	static boolean doPart2(int k[]) 	// calcul si l'ensemble des n-uples considérés satisfait la cdt : produit<=m
 	{										// RECOIS un vecteur d'entiers de taille m
-		int produit=1;
+		long produit=1;
 		for(int i=m-1; i>0 ;i--)
 		{
 			for(int j=k[i]; j>0 ; j--) 	//TODO il est peut etre possible d'optimiser cette fonction en utilisant directement pow
-			{							// au lieu de cette boucle
+			{							// au lieu de cette boucle EDIT: nop
 				produit*=(i+1);
 				if(produit>m)
 					return false;
 			}
+			
+			/*
+			
+			if(k[i]==0)
+				produit*=1;
+			if(k[i]==1)
+				produit*=(i+1);
+			else
+				produit*=ipow(i+1, k[i]);
+			
+			if(produit>m)
+				return false;
+				*/
 		}
 		
 		return true;
@@ -179,8 +143,36 @@ public class PE452 {
 			answer/=factorial(k[i]);
 			
 		
-		show(k);
-		System.out.println("  et un compte associe de :" +answer);
+//		show(k);
+//		System.out.println(" et un compte associé de: " +answer);
+		return answer;
+	}
+	
+	static long doPart3v2(int k[]) // calcul le nbre de n-uples associés au vecteur k 
+	{
+		// recherche de la valeur max dans k
+		int max=k[0], ind=0;
+		for(int i=1; max<n/2 && i<k.length; i++)
+		{
+			if(k[i]>max)
+			{
+				max=k[i];
+				ind=i;
+			}
+		}
+		
+		// simplif du calcul de quotient de factorielle
+		long answer=1;
+		for(int i=0;i<n-max;i++)
+			answer*=(n-i);
+		
+		// calcul des factorielles restantes
+		for(int i=0; i<k.length;i++)
+			if(i!=ind)
+				answer/=factorial(k[i]); //TODO: utiliser la fonctio "gamma" pour le calcul de factorielle voir web
+		
+//		show(k);
+//		System.out.println(" et un compte associé de: " +answer);
 		return answer;
 	}
 	
@@ -202,20 +194,11 @@ public class PE452 {
 			
 		return ans;
 	}
-
-	static int pow(int a, int b) // puissance d'entiers : a^b avec a et b possitif
-	{							// fonction pas nécessairement tres efficace
-		if(a==0 & b==0)
-			return -1;
-		int solution=1;
-		for(int i=0; i<b ; i++)
-			solution*=a;
-		return solution;
-	}
 	
-	static int ipow(int base, int exp) // Exponentiation by squaring
+	static long ipow(long base, long exp) // Exponentiation by squaring
 	{
-	    int result = 1;
+//		System.out.print(base+"--"+exp);
+	    long result = 1;
 	    while (exp!=0)
 	    {
 	        if ((exp & 1)!=0)
@@ -223,6 +206,7 @@ public class PE452 {
 	        exp >>= 1;
 	        base *= base;
 	    }
+//	    System.out.println("  "+result);
 
 	    return result;
 	}

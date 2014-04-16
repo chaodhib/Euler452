@@ -1,7 +1,9 @@
+import java.math.BigInteger;
+
 
 public class PE452 {
 	static int m=10, n=m; // max so far :  15 et 15 en 22s
-	static long compteur;
+	static BigInteger compteur;
 	
 	static int k[];
 	
@@ -14,7 +16,7 @@ public class PE452 {
 		{
 			k=new int[m];
 			findSolution2();
-			m+=10;
+			m+=50;
 			n=m;
 		}
 
@@ -22,7 +24,7 @@ public class PE452 {
 	
 	static void findSolution2()
 	{
-		compteur=0;
+		compteur=BigInteger.ZERO;
 		long debut= System.nanoTime();
 		doPartX(0, 1, m);
 		long fin= System.nanoTime();
@@ -69,7 +71,7 @@ public class PE452 {
 			if(sum0==n)
 			{
 //				show(k); System.out.println();
-				compteur+=doPart3v2(k);
+				compteur=compteur.add(doPart3v2(k));
 			}
 				
 			return;
@@ -83,15 +85,16 @@ public class PE452 {
 					return;
 				else
 				{
-					long prod=prod0*ipow(m-d+1, i);
-					if(prod>m)
-						return;
-					else
+					long prod=prod0;
+					for(int j=0; j<i; j++)
 					{
-						k[m-d]=i;
-						doPartX(sum, (int)prod, d-1);
+						prod*=m-d+1;
+						if(prod>m)
+							return;
 					}
 					
+					k[m-d]=i;
+					doPartX(sum, (int)prod, d-1);
 				}
 			}
 		}
@@ -136,11 +139,11 @@ public class PE452 {
 		return true;
 	}
 	
-	static long doPart3(int k[]) // calcul le nbre de n-uples associés au vecteur k 
+	static BigInteger doPart3(int k[]) // calcul le nbre de n-uples associés au vecteur k 
 	{							// TODO optimisable en utilisant la simplification de division de factorielles
-		long answer=factorial(n);
+		BigInteger answer=factorial(n);
 		for(int i=0; i<k.length;i++)
-			answer/=factorial(k[i]);
+			answer=answer.divide(factorial(k[i]));
 			
 		
 //		show(k);
@@ -148,7 +151,7 @@ public class PE452 {
 		return answer;
 	}
 	
-	static long doPart3v2(int k[]) // calcul le nbre de n-uples associés au vecteur k 
+	static BigInteger doPart3v2(int k[]) // calcul le nbre de n-uples associés au vecteur k 
 	{
 		// recherche de la valeur max dans k
 		int max=k[0], ind=0;
@@ -162,14 +165,14 @@ public class PE452 {
 		}
 		
 		// simplif du calcul de quotient de factorielle
-		long answer=1;
+		BigInteger answer=BigInteger.ONE;
 		for(int i=0;i<n-max;i++)
-			answer*=(n-i);
+			answer=answer.multiply(BigInteger.valueOf(n-i));
 		
 		// calcul des factorielles restantes
 		for(int i=0; i<k.length;i++)
 			if(i!=ind)
-				answer/=factorial(k[i]); //TODO: utiliser la fonctio "gamma" pour le calcul de factorielle voir web
+				answer=answer.divide(factorial(k[i]));//TODO: utiliser la fonctio "gamma" pour le calcul de factorielle voir web
 		
 //		show(k);
 //		System.out.println(" et un compte associé de: " +answer);
@@ -182,12 +185,12 @@ public class PE452 {
 			System.out.print("|"+k[i]+"|");
 	}
 
-	private static long factorial(int n2)	// n2 >=0  
+	private static BigInteger factorial(int n2)	// n2 >=0  
 	{										//TODO optimisable en utilisant le fast algo voir site web
-		long ans=1;
+		BigInteger ans=BigInteger.ONE;
 		while(n2>1)
 		{
-			ans*=n2;
+			ans=ans.multiply(BigInteger.valueOf(n2));
 			n2--;
 //			System.out.println("ans :" +ans);
 		}

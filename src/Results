@@ -1,20 +1,11 @@
-en utilisant if..if..elsepow dans doPart2
-
-Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 54ms
-Pour m: 11 et n: 11 La solution au problème est: 716 et le calcul a pris: 136ms
-Pour m: 12 et n: 12 La solution au problème est: 1805 et le calcul a pris: 394ms
-Pour m: 13 et n: 13 La solution au problème est: 2237 et le calcul a pris: 1425ms
-Pour m: 14 et n: 14 La solution au problème est: 2913 et le calcul a pris: 5469ms
-Pour m: 15 et n: 15 La solution au problème est: 3711 et le calcul a pris: 25713ms
-Pour m: 16 et n: 16 La solution au problème est: 8262 et le calcul a pris: 86522ms
-Pour m: 17 et n: 17 La solution au problème est: 10527 et le calcul a pris: 360418ms
-Pour m: 18 et n: 18 La solution au problème est: 345420 et le calcul a pris: 1459336ms
-
-
-Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 21ms
-Pour m: 11 et n: 11 La solution au problème est: 716 et le calcul a pris: 75ms
-Pour m: 12 et n: 12 La solution au problème est: 1805 et le calcul a pris: 215ms
-Pour m: 13 et n: 13 La solution au problème est: 2237 et le calcul a pris: 785ms
-Pour m: 14 et n: 14 La solution au problème est: 2913 et le calcul a pris: 2708ms
-Pour m: 15 et n: 15 La solution au problème est: 3711 et le calcul a pris: 10111ms
-Pour m: 16 et n: 16 La solution au problème est: 8261 et le calcul a pris: 40832ms
+Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 1ms
+Pour m: 60 et n: 60 La solution au problème est: 64429358 et le calcul a pris: 25ms
+Pour m: 110 et n: 110 La solution au problème est: 23789356603 et le calcul a pris: 167ms
+Pour m: 160 et n: 160 La solution au problème est: 1348730219153 et le calcul a pris: 452ms
+Pour m: 210 et n: 210 La solution au problème est: 34740824061758 et le calcul a pris: 1001ms
+Pour m: 260 et n: 260 La solution au problème est: 292832193029544 et le calcul a pris: 2128ms
+Pour m: 310 et n: 310 La solution au problème est: 2242867120662222 et le calcul a pris: 3813ms
+Pour m: 360 et n: 360 La solution au problème est: 7567526106835141 et le calcul a pris: 6397ms
+Pour m: 410 et n: 410 La solution au problème est: 38999117356187208 et le calcul a pris: 9954ms
+Pour m: 460 et n: 460 La solution au problème est: 121.183.935.030.882.470 et le calcul a pris: 14733ms
+Pour m: 510 et n: 510 La solution au problème est: 323.742.946.471.822.539 et le calcul a pris: 21106ms | 3e17

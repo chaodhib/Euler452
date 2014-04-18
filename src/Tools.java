@@ -22,6 +22,20 @@ public class Tools {
 		return solution;
 	}
 	
-	
+	static long ipow(long base, long exp) // Exponentiation by squaring
+	{
+//		System.out.print(base+"--"+exp);
+	    long result = 1;
+	    while (exp!=0)
+	    {
+	        if ((exp & 1)!=0)
+	            result *= base;
+	        exp >>= 1;
+	        base *= base;
+	    }
+//	    System.out.println("  "+result);
+
+	    return result;
+	}
 
 }

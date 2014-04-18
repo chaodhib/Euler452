@@ -1,3 +1,54 @@
+Utilisation BigInteger & Part3v2 & BigIntegerMath.factorial()
+Pour m: 10 et n: 10 La solution au problème est: 571 e2 et le calcul a pris: 40ms
+Pour m: 60 et n: 60 La solution au problème est: 64429358 e7 et le calcul a pris: 43ms
+Pour m: 110 et n: 110 La solution au problème est: 23789356603 e10 et le calcul a pris: 159ms
+Pour m: 160 et n: 160 La solution au problème est: 1348730219153 e12 et le calcul a pris: 390ms
+Pour m: 210 et n: 210 La solution au problème est: 34740824061758 e13 et le calcul a pris: 953ms
+Pour m: 260 et n: 260 La solution au problème est: 750340726603690 e14 et le calcul a pris: 2075ms
+Pour m: 310 et n: 310 La solution au problème est: 4072901254958805 e15 et le calcul a pris: 3694ms
+Pour m: 360 et n: 360 La solution au problème est: 13972645576873180 e16 et le calcul a pris: 5947ms
+Pour m: 410 et n: 410 La solution au problème est: 203702189442879635 e17 et le calcul a pris: 8971ms
+Pour m: 460 et n: 460 La solution au problème est: 541176768851948155 e17 et le calcul a pris: 13145ms
+Pour m: 510 et n: 510 La solution au problème est: 1291373494981140535 e18 et le calcul a pris: 18619ms
+---- amélio mineure (save 10% de temps)
+Pour m: 560 et n: 560 La solution au problème est: 18592706321543931175 e19 et le calcul a pris: 28060ms
+Pour m: 610 et n: 610 La solution au problème est: 53072057605571795230 e19 et le calcul a pris: 38384ms
+Pour m: 660 et n: 660 La solution au problème est: 112196027739278360505 e20 et le calcul a pris: 50004ms
+Pour m: 710 et n: 710 La solution au problème est: 210640143676385238620 e20 et le calcul a pris: 62704ms
+Pour m: 760 et n: 760 La solution au problème est: 380819961703998155560 e20 et le calcul a pris: 80312ms
+Pour m: 810 et n: 810 La solution au problème est: 4512342470147523113275 e21 et le calcul a pris: 97989ms
+Pour m: 860 et n: 860 La solution au problème est: 7697065024837091872340 e21 et le calcul a pris: 120548ms
+Pour m: 910 et n: 910 La solution au problème est: 13499741989638431308185 e22 et le calcul a pris: 146528ms
+Pour m: 960 et n: 960 La solution au problème est: 22715896789714387839945 e22 et le calcul a pris: 176093ms
+Pour m: 1010 et n: 1010 La solution au problème est: 35609159476427119373145 e22 et le calcul a pris: 205869ms
+Pour m: 1060 et n: 1060 La solution au problème est: 569455563059708461411623 e23 et le calcul a pris: 240890ms
+Pour m: 1110 et n: 1110 La solution au problème est: 896925725415342759506983 e23 et le calcul a pris: 287860ms
+Pour m: 1160 et n: 1160 La solution au problème est: 1769534759826396071592278 e24 et le calcul a pris: 332202ms
+Pour m: 1210 et n: 1210 La solution au problème est: 2662215914065692039017678 e24 et le calcul a pris: 373936ms
+Pour m: 1260 et n: 1260 La solution au problème est: 3941058631892420220094548 e24 et le calcul a pris: 429667ms
+Pour m: 1310 et n: 1310 La solution au problème est: 6050912329002122844953483 e24 et le calcul a pris: 487538ms
+Pour m: 1360 et n: 1360 La solution au problème est: 8707947116794145100212223 e24 et le calcul a pris: 560517ms
+Pour m: 1410 et n: 1410 La solution au problème est: 12351411097849599261288953 e25 et le calcul a pris: 633579ms
+Pour m: 1460 et n: 1460 La solution au problème est: 17394697769925281235346188 e25 et le calcul a pris: 702695ms
+Pour m: 1510 et n: 1510 La solution au problème est: 24099887277034957533695823 e25 et le calcul a pris: 777588ms
+Pour m: 1560 et n: 1560 La solution au problème est: 273752548975787120125143388 e26 et le calcul a pris: 882502ms
+Pour m: 1610 et n: 1610 La solution au problème est: 374661584226666878973285048 e26 et le calcul a pris: 966842ms
+Pour m: 1660 et n: 1660 La solution au problème est: 507852384022492380941207953 e26 et le calcul a pris: 1078292ms
+
+
+Utilisation BigInteger & Part3
+Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 4ms
+Pour m: 60 et n: 60 La solution au problème est: 64429358 et le calcul a pris: 79ms
+Pour m: 110 et n: 110 La solution au problème est: 23789356603 et le calcul a pris: 212ms
+Pour m: 160 et n: 160 La solution au problème est: 1348730219153 et le calcul a pris: 628ms
+Pour m: 210 et n: 210 La solution au problème est: 34740824061758 et le calcul a pris: 1674ms
+Pour m: 260 et n: 260 La solution au problème est: 750340726603690 et le calcul a pris: 3251ms
+Pour m: 310 et n: 310 La solution au problème est: 4072901254958805 et le calcul a pris: 5806ms
+Pour m: 360 et n: 360 La solution au problème est: 13972645576873180 et le calcul a pris: 9835ms
+Pour m: 410 et n: 410 La solution au problème est: 203702189442879635 et le calcul a pris: 14766ms
+Pour m: 460 et n: 460 La solution au problème est: 541176768851948155 et le calcul a pris: 22217ms
+
+Utilisation long & Part3v2
 Pour m: 10 et n: 10 La solution au problème est: 571 et le calcul a pris: 1ms
 Pour m: 60 et n: 60 La solution au problème est: 64429358 et le calcul a pris: 25ms
 Pour m: 110 et n: 110 La solution au problème est: 23789356603 et le calcul a pris: 167ms
@@ -9,3 +60,4 @@ Pour m: 360 et n: 360 La solution au problème est: 7567526106835141 et le calcu
 Pour m: 410 et n: 410 La solution au problème est: 38999117356187208 et le calcul a pris: 9954ms
 Pour m: 460 et n: 460 La solution au problème est: 121.183.935.030.882.470 et le calcul a pris: 14733ms
 Pour m: 510 et n: 510 La solution au problème est: 323.742.946.471.822.539 et le calcul a pris: 21106ms | 3e17
+

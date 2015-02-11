@@ -3,12 +3,12 @@ package be.chaouki.eulerproblem.impl;
 /** Premiere implementation d'une solution. 
  * 
  *  Le principe utilisee est une fonction recursive qui va generer 
- *  l'ensemble des n-uple telle que n_i compris entre 1 et m
- *  et stocke ces n-uple dans "tab".
- *  puis il suffit d'ecarter les n-uple telle que le produit des n_i > m.
+ *  l'ensemble des n-uple telle que n_i soit compris entre 1 et m pour tout i compris entree 1 et n.
+ *  On a donc m^n n-uples que l'on stocke dans "tab".
+ *  Il suffit alors d'ecarter les n-uple telle que le produit des n_i > m.
  * 
  *  Celle ci necessite une quantite irrealiste de memoire pour des valeurs de n et m > 5. 
- *  De plus, il y a des bug apd de m=n=5 à cause de la perte de precision due a des divisions d'entiers.
+ *  De plus, il y a des bug apd de m=n=5 Ã  cause de la perte de precision due a des divisions d'entiers.
  *  Cette solution est donc abandonnee.
  * 
  * @author Chaouki
@@ -45,7 +45,7 @@ public class Attempt1 {
 				compteur++;
 		}
 		
-		System.out.println("la solution du problème est: "+compteur);
+		System.out.println("la solution du problÃ¨me est: "+compteur);
 	}
 	
 	static void traiterRecursivement(byte[][]mat, int y0, int yL)

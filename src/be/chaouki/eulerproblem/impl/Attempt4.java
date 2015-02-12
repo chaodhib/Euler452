@@ -7,12 +7,19 @@ import com.google.common.math.BigIntegerMath;
 
 /**Troisieme implementation d'une solution. 
  * 
- * En cours de travail.
+ * Refonte de la methode doPart1() en cours.
  * 
- * Rappel, la plus grande puissance de 10 stockable dans :
-	int  : 10^9
-	long : 10^18
-	long est donc suffisant pour stocker les calculs de produits mais pas pour stocker le compteur.
+ * Rappel, la plus grande valeur stockable dans :
+	int  : 2*10^9
+	long : 9*10^18
+	
+	long est donc suffisant pour stocker les calculs de produits. Preuve:
+	De par le problème, on sait que max(m)=10^9. En d'autres termes, m<=10^9
+	De plus, les calculs de produits se font dans le programme de telle sorte que:
+	a*b avec a et b <=m. Ce qui donne a*b <= m^2 <=> a*b <= 10^18.
+	
+	Long n'est néanmoins pas suffisant pour stocker le compteur.
+	Utilisation donc de BigInteger pour contenir compteur.
 	
  * @author Chaouki
  *

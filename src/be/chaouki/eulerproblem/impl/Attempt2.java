@@ -1,9 +1,10 @@
 package be.chaouki.eulerproblem.impl;
 
 /** Deuxieme implementation d'une solution. 
- *  Le principe utilisee est le meme que Attempt1 cad une fonction recursive qui va generer 
- *  l'ensemble des n-uple telle que n_i compris entre 1 et m.
- *  puis il suffit d'ecarter les n-uple telle que le produit des n_i > m.
+ *  Le principe utilisee est une fonction recursive qui va generer 
+ *  l'ensemble des n-uple telle que n_i soit compris entre 1 et m pour tout i compris entree 1 et n.
+ *  On a donc m^n n-uples que l'on stocke dans "tab".
+ *  Il suffit alors d'ecarter les n-uple telle que le produit des n_i > m.
  *  La difference ici est que les n-uples ne sont pas sauvegardes en memoire.
  *  La valeur compteur, celle qui stock le nombre de n-uple solutions rencontres
  *  jusqu'a present, est incremente directement dans la condition d'arret 
@@ -21,7 +22,7 @@ public class Attempt2 {
 		while(true)
 		{
 			findSolution();
-			m+=1;
+			m+=9;
 			n=m;
 		}
 	}

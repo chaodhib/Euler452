@@ -1,5 +1,6 @@
 package be.chaouki.eulerproblem.impl;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import be.chaouki.eulerproblem.utils.Tools;
 
@@ -30,7 +31,7 @@ import com.google.common.math.BigIntegerMath;
 public class Attempt3
 {
 	
-	private static int m=10, n=10;
+	private static int m=5, n=5;
 	private static BigInteger compteur, compteur_d;
 	
 	private static int k[];
@@ -41,7 +42,7 @@ public class Attempt3
 		{
 			k=new int[m];
 			findSolution();
-			m+=10;
+			m+=1;
 			n=m;
 		}
 		
@@ -56,6 +57,7 @@ public class Attempt3
 		System.out.print("Pour m: "+m+" et n: "+n);
 		System.out.print(" La solution au problème est: "+Tools.scientificFormatBigInteger(compteur));
 		System.out.println(" et le calcul a pris: "+ (fin-debut)/1000000 +"ms");
+		System.out.println("compteur_d= "+compteur_d);
 	}
 	
 	private static void doPart1(int sum0, long prod0, int d) // trouve l'ensemble des k uple telle que les cdts A1 et A2 sont verifiees
@@ -64,8 +66,9 @@ public class Attempt3
 		{
 			if(sum0==n)
 			{
-				compteur=compteur.add(doPart2(k));
+//				compteur=compteur.add(doPart2(k));
 				compteur_d=compteur_d.add(BigInteger.ONE);
+//				System.out.println(Arrays.toString(k));
 //				show(k);
 			}
 				
@@ -82,8 +85,8 @@ public class Attempt3
 					return;
 				if(k!=0)
 					prod*=d+1;
-				if(prod>m)
-					return;
+//				if(prod>m)
+//					return;
 				Attempt3.k[d]=k;
 				doPart1(sum, prod, d+1);
 			}

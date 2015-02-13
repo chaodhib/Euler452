@@ -64,8 +64,8 @@ public class Attempt4
 		// un algorithme plus efficase pour trouver les solutions de l equation diophantine lineare A2 (voir mes notes)
 		// la piste que j'explore actuellement est le fait que ca revient a enumerer les solutions 
 		// d'une combinaison avec remplacements (voir stars and bars problem)
+		//TODO: calcul des produits du plus grand au plus petit terme
 	}
-	
 	
 	private BigInteger doPart2(int k[]) // calcul le nbre de n-uples associés au vecteur k 
 	{

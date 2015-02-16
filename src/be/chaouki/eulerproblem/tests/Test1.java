@@ -103,6 +103,24 @@ public class Test1 {
 		// conclusion : multiplying ints together or longs together by the standart operator takes roughly
 		// the same time. And there is a ratio x10 to use multiply(int, int) and a ratio 20x to use multiply(long, long)
 		
+		// comparing the difference between the loop condition "i!=a" and "i<a"
+		boolean sol;
+		// !=
+		debut= System.nanoTime();
+		for(int j=0;j<100 ; j++)
+			for(int i=0;i<1000000 ; i++)
+				sol=4<j;
+		fin= System.nanoTime();
+		System.out.println(" et le calcul a pris: "+ (fin-debut)/1000000 +"ms");
+		
+		// >
+		debut= System.nanoTime();
+		for(int j=0;j<100 ; j++)
+			for(int i=0;i!=1000000 ; i++)
+				sol=4<j;
+		fin= System.nanoTime();
+		System.out.println(" et le calcul a pris: "+ (fin-debut)/1000000 +"ms");
+		
 	}
 
 }

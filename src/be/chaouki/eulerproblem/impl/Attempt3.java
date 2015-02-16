@@ -31,14 +31,14 @@ import com.google.common.math.BigIntegerMath;
 public class Attempt3
 {
 	
-	private static int m=5, n=5;
+	private static int m=4, n=8;
 	private static BigInteger compteur, compteur_d;
 	
 	private static int k[];
 	
 	public static void main(String[] args)
 	{
-		while(true)
+//		while(true)
 		{
 			k=new int[m];
 			findSolution();
@@ -68,7 +68,7 @@ public class Attempt3
 			{
 //				compteur=compteur.add(doPart2(k));
 				compteur_d=compteur_d.add(BigInteger.ONE);
-//				System.out.println(Arrays.toString(k));
+				System.out.println(Arrays.toString(k));
 //				show(k);
 			}
 				

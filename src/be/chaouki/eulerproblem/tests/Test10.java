@@ -7,30 +7,29 @@ import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import com.google.common.math.BigIntegerMath;
-
 import be.chaouki.eulerproblem.utils.Tools;
 
+import com.google.common.math.BigIntegerMath;
+
 /** custom made method. search of the k-combinations of a n set with repetition.
- * the solutions are in the form of the solution of the diophantine equation sum(xi)=k for 1<i<n
+ * the solutions are in the form of the solution of the diophantine equation sum(xi)=k for 1<=i<=n
  * 
  * @author Chaouki
  *
- */
-public class Test9 {
+ */ 
+public class Test10 {
 
-	private static boolean output = true;
-	private static int compteur = 0;
+	private static final boolean output = false;
+	private static BigInteger compteur = BigInteger.ZERO;
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 8, k = 3;
+		int n = 10000, k = 10000;
+		
 		long debut = System.nanoTime();
-
-//		gen_comb_wo_rep(n, k);
 		gen_comb_w_rep(n, k);
-		System.out.println(compteur);
 		long fin = System.nanoTime();
+		System.out.println(compteur);
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
 		
 	}
@@ -49,7 +48,7 @@ public class Test9 {
 				continue;
 			}
 			else
-				doStuffWithSolution(eqSol);
+				doStuffWithSolution(eqSol, k);
 			
 			if(eqSol[n-1]==0){
 				// searching for the next combination...
@@ -115,10 +114,22 @@ public class Test9 {
 		return true;
 	}
 	
-	public static void doStuffWithSolution(int eqSol[]){
-		compteur++;
+	public static void doStuffWithSolution(int eqSol[], int k){
+		
+//		compteur=compteur.add(BigInteger.ONE);
 		if (output) {
 			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
 		}
+		
+		// simplif du calcul de quotient de factorielle
+		BigInteger answer=BigInteger.ONE;
+		for(int i=eqSol[0]+1;i<=k;i++)
+			answer=answer.multiply(BigInteger.valueOf(i));
+		
+		// calcul des factorielles restantes
+		for(int i=1; i<eqSol.length;i++) //
+			answer=answer.divide(BigIntegerMath.factorial(eqSol[i])); 
+		
+		compteur=compteur.add(answer);
 	}
 }

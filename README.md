@@ -9,7 +9,8 @@ La seconde version (Attempt2) arrive à réssoudre le problème avec des valeurs
 
 La meilleur solution a l'heure actuelle (Attempt3) arriver à ressoudre le problèmes avec des valeurs de m et n = 1400 en 10 minutes et des valeurs de m et n de l'ordre de 2500 en une heure sur mon ordinnateur.
 
-Attempt 4 est la prochaine version de la solution et est en cours de préparation.
+Attempt 4 :
+14/02/2015 La version actuelle de la nouvelle solution permet de réssoudre le probleme avec m=n=10,000 en moins de 10 minutes.
 
 * EN
 

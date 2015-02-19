@@ -40,7 +40,8 @@ public class Tools {
 	
 	public static boolean prodAboveLimitES(int[] eqSol, int lim) {
 		long prod=1;
-		for(int i=eqSol.length-1 ; i>0 ; i--){
+//		for(int i=eqSol.length-1 ; i>0 ; i--){
+		for(int i=1 ; i<eqSol.length ; i++){
 			for(int j=0 ; j<eqSol[i] ; j++){
 				prod*=i+1;
 				if(prod>lim)

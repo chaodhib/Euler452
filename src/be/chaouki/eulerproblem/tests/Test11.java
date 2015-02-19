@@ -19,12 +19,12 @@ import com.google.common.math.BigIntegerMath;
  */ 
 public class Test11 {
 
-	private static final boolean output = true;
+	private static final boolean output = false;
 	private static BigInteger compteur = BigInteger.ZERO;
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 10, k = 10;
+		int n = 1000, k = 1000;
 		
 		long debut = System.nanoTime();
 		gen_comb_w_rep(n, k);
@@ -44,16 +44,16 @@ public class Test11 {
 		int loopCount=0;
 		boolean hasMoreSol=true;
 		while(hasMoreSol){
-			loopCount++;
-			if(loopCount>50000)
-				return;
+//			loopCount++;
+//			if(loopCount>1000)
+//				return;
 			
-			doStuffWithSolution(eqSol, k);
 			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
 				hasMoreSol=skipUnnecessarySolutions(eqSol);
 				continue;
 			}
 			else
+				doStuffWithSolution(eqSol, k);
 				
 				;
 			
@@ -122,37 +122,23 @@ public class Test11 {
 		
 		if(indB+1==indC){
 			eqSol[indA]--;
-			eqSol[indB]+=eqSol[indC]+1;
-			eqSol[indC]=0;
+			eqSol[indA+1]=eqSol[indB]+eqSol[indC]+1;
+			eqSol[indC]=0;			
+			if(indA+1!=indB){
+				eqSol[indB]=0;	
+			} else{
+				
+			}
 		} else{
 			eqSol[indB]--;
 			eqSol[indB+1]=eqSol[indC]+1;
 			eqSol[indC]=0;
 		}
 		
-//		else{
-//			//check if there are non null elements at the left of indA
-//			int ind;
-//			for(ind=indA-1 ; ind>=0 ; ind--)
-//				if(eqSol[ind]!=0)
-//					break;
-//			if(ind==-1) //if not, the search if over
-//				return false;
-//		}
-		
-//		if(indA!=1){
-//			eqSol[indA]--;
-//			eqSol[indB+1]+=eqSol[indC]+1;
+//		eqSol[indB]--;
+//		eqSol[indB+1]=eqSol[indC]+1;
+//		if(indB+1!=indC)
 //			eqSol[indC]=0;
-//			
-//			return true;
-//		}
-//		else{
-//			eqSol[indB]--;
-//			eqSol[indB+1]+=eqSol[indC]+1;
-//			eqSol[indC]=0;
-//			return true;
-//		}
 		
 		return true;
 	}

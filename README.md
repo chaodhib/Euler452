@@ -13,6 +13,8 @@ La troisème version (Attempt3) arrive à ressoudre le problèmes avec des valeu
 
 20/02/2015 La version actuelle réssoud le probleme avec m=n=10.000 en 25 secondes.
 
+20/02/2015 m=n=10.000 en moins de 10 secondes et 100.000 en moins de 20min. 
+
 * EN
 
 Attemps at solving the 452th problem in the Euler Project

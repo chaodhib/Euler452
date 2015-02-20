@@ -45,28 +45,24 @@ Pour m: 2010 et n: 2010 La solution au probleme est: 3e27 et le calcul a pris: 1
 Pour m: 2060 et n: 2060 La solution au probleme est: 7e28 et le calcul a pris: 1995011ms
 Pour m: 2110 et n: 2110 La solution au probleme est: 1e29 et le calcul a pris: 2151665ms
 
-Utilisation BigInteger & Part3
-Pour m: 10 et n: 10 La solution au probleme est: 571 et le calcul a pris: 4ms
-Pour m: 60 et n: 60 La solution au probleme est: 64429358 et le calcul a pris: 79ms
-Pour m: 110 et n: 110 La solution au probleme est: 23789356603 et le calcul a pris: 212ms
-Pour m: 160 et n: 160 La solution au probleme est: 1348730219153 et le calcul a pris: 628ms
-Pour m: 210 et n: 210 La solution au probleme est: 34740824061758 et le calcul a pris: 1674ms
-Pour m: 260 et n: 260 La solution au probleme est: 750340726603690 et le calcul a pris: 3251ms
-Pour m: 310 et n: 310 La solution au probleme est: 4072901254958805 et le calcul a pris: 5806ms
-Pour m: 360 et n: 360 La solution au probleme est: 13972645576873180 et le calcul a pris: 9835ms
-Pour m: 410 et n: 410 La solution au probleme est: 203702189442879635 et le calcul a pris: 14766ms
-Pour m: 460 et n: 460 La solution au probleme est: 541176768851948155 et le calcul a pris: 22217ms
-
-Utilisation long & Part3v2
-Pour m: 10 et n: 10 La solution au probleme est: 571 et le calcul a pris: 1ms
-Pour m: 60 et n: 60 La solution au probleme est: 64429358 et le calcul a pris: 25ms
-Pour m: 110 et n: 110 La solution au probleme est: 23789356603 et le calcul a pris: 167ms
-Pour m: 160 et n: 160 La solution au probleme est: 1348730219153 et le calcul a pris: 452ms
-Pour m: 210 et n: 210 La solution au probleme est: 34740824061758 et le calcul a pris: 1001ms
-Pour m: 260 et n: 260 La solution au probleme est: 292832193029544 et le calcul a pris: 2128ms
-Pour m: 310 et n: 310 La solution au probleme est: 2242867120662222 et le calcul a pris: 3813ms
-Pour m: 360 et n: 360 La solution au probleme est: 7567526106835141 et le calcul a pris: 6397ms
-Pour m: 410 et n: 410 La solution au probleme est: 38999117356187208 et le calcul a pris: 9954ms
-Pour m: 460 et n: 460 La solution au probleme est: 121.183.935.030.882.470 et le calcul a pris: 14733ms
-Pour m: 510 et n: 510 La solution au probleme est: 323.742.946.471.822.539 et le calcul a pris: 21106ms | 3e17
-
+Attempt4
+613658361
+le calcul a pris: 45ms pour n=100 , k=100
+1058169388
+le calcul a pris: 4ms pour n=200 , k=200
+547248952
+le calcul a pris: 11ms pour n=400 , k=400
+280923971
+le calcul a pris: 25ms pour n=800 , k=800
+432717221
+le calcul a pris: 85ms pour n=1600 , k=1600
+678425624
+le calcul a pris: 362ms pour n=3200 , k=3200
+561005628
+le calcul a pris: 1773ms pour n=6400 , k=6400
+630575777
+le calcul a pris: 8456ms pour n=12800 , k=12800
+282630105
+le calcul a pris: 40471ms pour n=25600 , k=25600
+23599065
+le calcul a pris: 196788ms pour n=51200 , k=51200

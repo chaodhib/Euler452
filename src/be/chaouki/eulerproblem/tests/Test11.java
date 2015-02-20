@@ -25,90 +25,127 @@ public class Test11 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 10000, k = 10000;
-		while(true){
-		long debut = System.nanoTime();
-		gen_comb_w_rep(n, k);
-		long fin = System.nanoTime();
-		System.out.println(compteur);
-		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+n+" , k="+k);
-		compteur=0;
-		n*=10;
-		k=n;
+		int n = 5000, k = n;
+		
+		// Warm-up so the order of testing doesnt influence the results - last a few seconds
+		for(int j=0;j<10000 ; j++)
+			for(int i=0;i<1000000 ; i++){
+				long a=463543*54324354;
+		}
+		
+		while(true)
+		{
+			
+			long debut = System.nanoTime();
+			gen_comb_w_rep(n, k);
+			long fin = System.nanoTime();
+			System.out.println(compteur);
+			System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+n+" , k="+k);
+			
+			compteur=0;
+			n*=2;
+			k=n;
 		}
 	}
 	
 	public static void gen_comb_w_rep(int n, int k) {
-		// first solution, trivial [k 0 0 0 ... 0]
+		// first solution, trivial (k 0 0 0 ... 0)
 		int eqSol[] = new int[n];
 		eqSol[0] = k;
 		for(int i=1 ; i<n ; i++)
 			eqSol[i]=0;
 		
-		int loopCount=0;
-		boolean hasMoreSol=true, reusableSolution=false;
+		int loopCount=0;//DEBUG
+		
+		int currentIndex[]={0, 0}; //currentIndex0 <= currentIndex1
+		boolean hasMoreSolution=true, reusableSolution=false;
 		long solutionSave = 0;
-		while(hasMoreSol){
+		while(hasMoreSolution){
+//			//DEBUG
 //			loopCount++;
 //			if(loopCount>1000)
 //				return;
+//			//DEBUG
 			
+			//DEBUG
+//			if(eqSol[0]==506 && eqSol[1]==2 && eqSol[2]==4)
+//				System.out.println("debug");
+			
+			//DEBUG
+//			for(int i=0 ; i<eqSol.length ; i++)
+//				if(eqSol[i]<0)
+//					throw new AssertionError();
+			
+			display(eqSol);
 			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
-				hasMoreSol=skipUnnecessarySolutions(eqSol);
+				hasMoreSolution=skipUnnecessarySolutions(eqSol, currentIndex);
 				reusableSolution=false;
 				continue;
 			}
 			else{
 				if(!reusableSolution)
-					solutionSave=doStuffWithSolution(eqSol, k);
+					solutionSave=doStuffWithSolution(eqSol, k, currentIndex[1]);
+					;
 					
 				compteur=(solutionSave+compteur)%1234567891;
 			}
 			
-			if(eqSol[n-1]==0){
+//			if(eqSol[n-1]==0){
+			if(currentIndex[1]!=n-1){
 				// searching for the next combination...
-				// search for first non null element starting from the right side
-				int ind;
-				for(ind=n-2 ; ind>=0 ; ind--)
-				{
-					if(eqSol[ind]!=0)
-						break;
-				}
+				int ind=currentIndex[1];
+//				// search for first non null element starting from the right side
+//				for(ind=n-2 ; ind>=0 ; ind--)
+//				{
+//					if(eqSol[ind]!=0)
+//						break;
+//				}
+				
 				eqSol[ind]--;
 				eqSol[ind+1]++;
 				
-				if(eqSol[ind]==0 && eqSol[ind+1]==1)
+				if(eqSol[ind]==0){ // (?,...,1,0,...,0) -> (?,...,0,1,...,0) Case where just a 1 is shifted to the right
 					reusableSolution=true;
-				else
+					currentIndex[1]++; //the second index is shifted by one position to the right
+				}
+				else{ // General case (?,...,X,0,...,0) -> (?,...,X-1,1,...,0) where X>1
 					reusableSolution=false;
+					currentIndex[0]=ind;
+					currentIndex[1]++;
+				}
 				
 				continue;
 			}
 			else{
 				// searching for the next combination...
-				// search for second non null element starting from the right side
-				int ind;
-				for(ind=n-2 ; ind>=0 ; ind--)
-				{
-					if(eqSol[ind]!=0)
-						break;
-				}
-				// no more next combinations
-				if(ind==-1){
+				int ind=currentIndex[0];
+//				// search for second non null element starting from the right side
+//				for(ind=n-2 ; ind>=0 ; ind--)
+//				{
+//					if(eqSol[ind]!=0)
+//						break;
+//				}
+				
+				
+				if(ind==-1){ // then this was the very last combination: (0, ..., 0, k)
 					if(eqSol[n-1]==k){
-						hasMoreSol=false;
+						hasMoreSolution=false;
 						continue;
 					}
 					else
 						throw new IllegalStateException();
 				}
 				
-				//otherwise we found a new solution
+				// otherwise we found a new solution. 
+				//(?,...,X,...,Y) or (?,...,X,Y) -> (?,...,X-1,Y+1,...,0) and (?,...,X-1,Y+1) respectively
 				eqSol[ind]--;
 				eqSol[ind+1]=eqSol[n-1]+1;
-				if(ind+1!=n-1)
+				if(ind+1!=n-1){
 					eqSol[n-1]=0;
+					currentIndex[1]=ind+1; // keeping the indexes updated
+				}
 				
+				// reusability of the solution
 				reusableSolution=false;
 				
 				continue;
@@ -118,15 +155,9 @@ public class Test11 {
 		}
 	}
 	
-	private static boolean skipUnnecessarySolutions(int eqSol[]){
+	private static boolean skipUnnecessarySolutions(int eqSol[], int[] currentIndex){
 		//find the first, second and third non null element starting from the right
-		int indA, indB, indC;
-		for(indC=eqSol.length-1 ; indC>=0 ; indC--)
-			if(eqSol[indC]!=0)
-				break;
-		for(indB=indC-1 ; indB>=0 ; indB--)
-			if(eqSol[indB]!=0)
-				break;
+		int indA, indB=currentIndex[0], indC=currentIndex[1]; // indA <= indB <= indC
 		for(indA=indB-1 ; indA>=0 ; indA--)
 			if(eqSol[indA]!=0)
 				break;
@@ -139,15 +170,27 @@ public class Test11 {
 			eqSol[indA]--;
 			eqSol[indA+1]=eqSol[indB]+eqSol[indC]+1;
 			eqSol[indC]=0;			
-			if(indA+1!=indB){
+			if(indA+1!=indB)
 				eqSol[indB]=0;	
-			} else{
-				
+			
+			// keeping indexes updated
+			if(eqSol[indA]>0)
+				currentIndex[0]=indA;
+			else{
+				for(currentIndex[0]=indA-1 ; currentIndex[0]>=0 ; currentIndex[0]--)
+					if(eqSol[currentIndex[0]]!=0)
+						break;
 			}
+			currentIndex[1]=indA+1;
+			
 		} else{
 			eqSol[indB]--;
 			eqSol[indB+1]=eqSol[indC]+1;
 			eqSol[indC]=0;
+			
+			// keeping indexes updated
+			currentIndex[0]=(eqSol[indB]>0)?indB:indA;
+			currentIndex[1]=indB+1;
 		}
 		
 //		eqSol[indB]--;
@@ -158,12 +201,12 @@ public class Test11 {
 		return true;
 	}
 	
-	public static long doStuffWithSolution(int eqSol[], int k){
+	public static long doStuffWithSolution(int eqSol[], int k, int indMax){
 		
 //		compteur=compteur.add(BigInteger.ONE);
-		if (output) {
-			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
-		}
+//		if (output) {
+//			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
+//		}
 		
 		// simplif du calcul de quotient de factorielle
 		BigInteger answer=BigInteger.ONE;
@@ -171,9 +214,16 @@ public class Test11 {
 			answer=answer.multiply(BigInteger.valueOf(i));
 		
 		// calcul des factorielles restantes
-		for(int i=1; i<eqSol.length;i++) //
-			answer=answer.divide(BigIntegerMath.factorial(eqSol[i])); 
+		for(int i=1; i<=indMax;i++) //
+			if(eqSol[i]>1)
+				answer=answer.divide(BigIntegerMath.factorial(eqSol[i]));
 		
 		return answer.mod(MOD_VALUE).longValue();
+	}
+	
+	public static void display(int eqSol[]){
+		if (output) {
+			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
+		}
 	}
 }

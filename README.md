@@ -11,6 +11,8 @@ La troisème version (Attempt3) arrive à ressoudre le problèmes avec des valeu
 
 14/02/2015 La version actuelle de la nouvelle solution (Attempt 4) permet de réssoudre le probleme avec m=n=10.000 en moins de 10 minutes. Je suis à la recherche des manières de rendre l'algorithme plus performant.
 
+20/02/2015 La version actuelle réssoud le probleme avec m=n=10.000 en 25 secondes.
+
 * EN
 
 Attemps at solving the 452th problem in the Euler Project

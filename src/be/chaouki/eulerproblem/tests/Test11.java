@@ -20,18 +20,22 @@ import com.google.common.math.BigIntegerMath;
 public class Test11 {
 
 	private static final boolean output = false;
-	private static BigInteger compteur = BigInteger.ZERO;
+	private static long compteur = 0;
+	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 1000, k = 1000;
-		
+		int n = 10000, k = 10000;
+		while(true){
 		long debut = System.nanoTime();
 		gen_comb_w_rep(n, k);
 		long fin = System.nanoTime();
 		System.out.println(compteur);
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+n+" , k="+k);
-		
+		compteur=0;
+		n*=10;
+		k=n;
+		}
 	}
 	
 	public static void gen_comb_w_rep(int n, int k) {
@@ -42,7 +46,8 @@ public class Test11 {
 			eqSol[i]=0;
 		
 		int loopCount=0;
-		boolean hasMoreSol=true;
+		boolean hasMoreSol=true, reusableSolution=false;
+		long solutionSave = 0;
 		while(hasMoreSol){
 //			loopCount++;
 //			if(loopCount>1000)
@@ -50,12 +55,15 @@ public class Test11 {
 			
 			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
 				hasMoreSol=skipUnnecessarySolutions(eqSol);
+				reusableSolution=false;
 				continue;
 			}
-			else
-				doStuffWithSolution(eqSol, k);
-				
-				;
+			else{
+				if(!reusableSolution)
+					solutionSave=doStuffWithSolution(eqSol, k);
+					
+				compteur=(solutionSave+compteur)%1234567891;
+			}
 			
 			if(eqSol[n-1]==0){
 				// searching for the next combination...
@@ -68,6 +76,11 @@ public class Test11 {
 				}
 				eqSol[ind]--;
 				eqSol[ind+1]++;
+				
+				if(eqSol[ind]==0 && eqSol[ind+1]==1)
+					reusableSolution=true;
+				else
+					reusableSolution=false;
 				
 				continue;
 			}
@@ -96,6 +109,8 @@ public class Test11 {
 				if(ind+1!=n-1)
 					eqSol[n-1]=0;
 				
+				reusableSolution=false;
+				
 				continue;
 			}
 			
@@ -104,7 +119,7 @@ public class Test11 {
 	}
 	
 	private static boolean skipUnnecessarySolutions(int eqSol[]){
-		//find the first and second non null element starting from the right
+		//find the first, second and third non null element starting from the right
 		int indA, indB, indC;
 		for(indC=eqSol.length-1 ; indC>=0 ; indC--)
 			if(eqSol[indC]!=0)
@@ -143,7 +158,7 @@ public class Test11 {
 		return true;
 	}
 	
-	public static void doStuffWithSolution(int eqSol[], int k){
+	public static long doStuffWithSolution(int eqSol[], int k){
 		
 //		compteur=compteur.add(BigInteger.ONE);
 		if (output) {
@@ -159,6 +174,6 @@ public class Test11 {
 		for(int i=1; i<eqSol.length;i++) //
 			answer=answer.divide(BigIntegerMath.factorial(eqSol[i])); 
 		
-		compteur=compteur.add(answer);
+		return answer.mod(MOD_VALUE).longValue();
 	}
 }

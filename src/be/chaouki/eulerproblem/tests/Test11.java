@@ -19,21 +19,21 @@ import com.google.common.math.BigIntegerMath;
  */ 
 public class Test11 {
 
-	private static final boolean output = false;
+	private static final boolean output = true;
 	private static long compteur = 0;
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 5000, k = n;
+		int n = 512, k = n;
 		
 		// Warm-up so the order of testing doesnt influence the results - last a few seconds
-		for(int j=0;j<10000 ; j++)
-			for(int i=0;i<1000000 ; i++){
-				long a=463543*54324354;
-		}
+//		for(int j=0;j<10000 ; j++)
+//			for(int i=0;i<1000000 ; i++){
+//				long a=463543*54324354;
+//		}
 		
-		while(true)
+//		while(true)
 		{
 			
 			long debut = System.nanoTime();
@@ -90,16 +90,9 @@ public class Test11 {
 				compteur=(solutionSave+compteur)%1234567891;
 			}
 			
-//			if(eqSol[n-1]==0){
 			if(currentIndex[1]!=n-1){
 				// searching for the next combination...
-				int ind=currentIndex[1];
-//				// search for first non null element starting from the right side
-//				for(ind=n-2 ; ind>=0 ; ind--)
-//				{
-//					if(eqSol[ind]!=0)
-//						break;
-//				}
+				int ind=currentIndex[1];// ind is the index for first non null element starting from the right side
 				
 				eqSol[ind]--;
 				eqSol[ind+1]++;
@@ -118,14 +111,7 @@ public class Test11 {
 			}
 			else{
 				// searching for the next combination...
-				int ind=currentIndex[0];
-//				// search for second non null element starting from the right side
-//				for(ind=n-2 ; ind>=0 ; ind--)
-//				{
-//					if(eqSol[ind]!=0)
-//						break;
-//				}
-				
+				int ind=currentIndex[0];// ind is the index for second non null element starting from the right side
 				
 				if(ind==-1){ // then this was the very last combination: (0, ..., 0, k)
 					if(eqSol[n-1]==k){
@@ -150,8 +136,6 @@ public class Test11 {
 				
 				continue;
 			}
-			
-			
 		}
 	}
 	
@@ -193,11 +177,6 @@ public class Test11 {
 			currentIndex[1]=indB+1;
 		}
 		
-//		eqSol[indB]--;
-//		eqSol[indB+1]=eqSol[indC]+1;
-//		if(indB+1!=indC)
-//			eqSol[indC]=0;
-		
 		return true;
 	}
 	
@@ -208,7 +187,9 @@ public class Test11 {
 //			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
 //		}
 		
-		// simplif du calcul de quotient de factorielle
+		// simplif du calcul de quotient de factorielle. 
+		// Il est prouvable que le plus grand element dans eqSol serra toujours eqSol[0] à cause
+		// de la condition sur le produit. eqSol[0] minimum egal k - LN(n)/LN(2).
 		BigInteger answer=BigInteger.ONE;
 		for(int i=eqSol[0]+1;i<=k;i++)
 			answer=answer.multiply(BigInteger.valueOf(i));

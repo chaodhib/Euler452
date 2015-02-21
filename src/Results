@@ -66,3 +66,5 @@ le calcul a pris: 8456ms pour n=12800 , k=12800
 le calcul a pris: 40471ms pour n=25600 , k=25600
 23599065
 le calcul a pris: 196788ms pour n=51200 , k=51200
+602287876
+le calcul a pris: 853170ms pour n=100000 , k=100000

@@ -19,13 +19,14 @@ import com.google.common.math.BigIntegerMath;
  */ 
 public class Test11 {
 
-	private static final boolean output = true;
+	private static final boolean output = false;
 	private static long compteur = 0;
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
+	private static final long MOD_VALUE_L=1234567891;
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 512, k = n;
+		int n = 100, k = n;
 		
 		// Warm-up so the order of testing doesnt influence the results - last a few seconds
 //		for(int j=0;j<10000 ; j++)
@@ -33,7 +34,7 @@ public class Test11 {
 //				long a=463543*54324354;
 //		}
 		
-//		while(true)
+		while(true)
 		{
 			
 			long debut = System.nanoTime();
@@ -78,51 +79,65 @@ public class Test11 {
 			
 			display(eqSol);
 			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
-				hasMoreSolution=skipUnnecessarySolutions(eqSol, currentIndex);
+				hasMoreSolution=skipUnnecessaryCombinations(eqSol, currentIndex);
 				reusableSolution=false;
 				continue;
 			}
 			else{
 				if(!reusableSolution)
-					solutionSave=doStuffWithSolution(eqSol, k, currentIndex[1]);
-					;
+					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
 					
-				compteur=(solutionSave+compteur)%1234567891;
+				compteur=(solutionSave+compteur)%MOD_VALUE_L;
 			}
 			
 			if(currentIndex[1]!=n-1){
 				// searching for the next combination...
-				int ind=currentIndex[1];// ind is the index for first non null element starting from the right side
+				int ind=currentIndex[1];// ind is the index for 1st non null element starting from the right side
 				
 				eqSol[ind]--;
 				eqSol[ind+1]++;
 				
-				if(eqSol[ind]==0){ // (?,...,1,0,...,0) -> (?,...,0,1,...,0) Case where just a 1 is shifted to the right
+				// General case (?,...,X,0,...,0) -> (?,...,X-1,1,...,0) where X>1
+				reusableSolution=false;
+				currentIndex[0]=ind;
+				currentIndex[1]++;
+				
+				if(!Tools.prodAboveLimitES(eqSol, eqSol.length)){
+					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
+					// apply end case (?,...,X-1,0,...,1) and see if its a solution
+					eqSol[ind+1]--;
+					eqSol[n-1]++;
+					int start=ind+1, end;
+					if(!Tools.prodAboveLimitES(eqSol, eqSol.length)){
+						// bingo, a LOT of calculations and method calls can be skipped.
+						// basicly, from (?,...,X-1,1,...,0) to (?,...,X-1,0,...,1) in one step.
+						
+						
+						end=n-1;
+						
+					} else{
+						eqSol[n-1]--;
+						// from this point, we know that (?,...,X-1,1,...,0) is a solution
+						// but (?,...,X-1,0,...,1) is not. lets find the highest index
+						// of the right sided "1" for which the vector is solution 
+						// using a form of binary search.
+						end=binarySearch(eqSol, ind+1, n-1);
+						eqSol[end]++;
+					}
+					
+					compteur+=(solutionSave*(long)(end-start));
+					compteur%=MOD_VALUE_L;
 					reusableSolution=true;
-					currentIndex[1]++; //the second index is shifted by one position to the right
-				}
-				else{ // General case (?,...,X,0,...,0) -> (?,...,X-1,1,...,0) where X>1
-					reusableSolution=false;
-					currentIndex[0]=ind;
-					currentIndex[1]++;
+					currentIndex[1]=end;
 				}
 				
 				continue;
 			}
 			else{
 				// searching for the next combination...
-				int ind=currentIndex[0];// ind is the index for second non null element starting from the right side
+				int ind=currentIndex[0];// ind is the index for 2nd non null element starting from the right side
 				
-				if(ind==-1){ // then this was the very last combination: (0, ..., 0, k)
-					if(eqSol[n-1]==k){
-						hasMoreSolution=false;
-						continue;
-					}
-					else
-						throw new IllegalStateException();
-				}
-				
-				// otherwise we found a new solution. 
+				// otherwise we found a new combination. 
 				//(?,...,X,...,Y) or (?,...,X,Y) -> (?,...,X-1,Y+1,...,0) and (?,...,X-1,Y+1) respectively
 				eqSol[ind]--;
 				eqSol[ind+1]=eqSol[n-1]+1;
@@ -138,16 +153,35 @@ public class Test11 {
 			}
 		}
 	}
-	
-	private static boolean skipUnnecessarySolutions(int eqSol[], int[] currentIndex){
+
+	private static int binarySearch(int[] eqSol, int lo, int hi) {
+		while (lo<hi-1) {
+		    // the index solution should be in [lo..hi[
+		    int mid = lo + (hi - lo) / 2;
+		    
+		    // test then put eqSol back into its original state.
+		    eqSol[mid]++;
+		    boolean isSolution=!Tools.prodAboveLimitES(eqSol, eqSol.length);
+		    eqSol[mid]--;
+		    
+		    if(isSolution)
+		    	lo = mid;
+		    else
+		    	hi = mid;
+		}
+		
+		return lo;
+	}
+
+	private static boolean skipUnnecessaryCombinations(int eqSol[], int[] currentIndex){
 		//find the first, second and third non null element starting from the right
 		int indA, indB=currentIndex[0], indC=currentIndex[1]; // indA <= indB <= indC
 		for(indA=indB-1 ; indA>=0 ; indA--)
 			if(eqSol[indA]!=0)
 				break;
-		if(indB==-1) // cas extreme (0 ... k ... 0). fin de la recherche car ce qui suit possède un prod superieur
+		if(indB==-1) // extreme case (0 ... k ... 0). end of the search because what follows will always have a higher product.
 			return false;
-		if(indC==indB+1 && indA==-1) // cas (0, ..., k-l, l, ..., 0)
+		if(indC==indB+1 && indA==-1) // case with (0, ..., k-l, l, ..., 0)
 			return false;
 		
 		if(indB+1==indC){
@@ -180,21 +214,24 @@ public class Test11 {
 		return true;
 	}
 	
-	public static long doStuffWithSolution(int eqSol[], int k, int indMax){
+	public static long computeSolution(int eqSol[], int k, int indMax){
+		// This function calculates all the possible permutations of the k-tuple associated
+		// with a n-tuple given in parameter (eqSol). Example, the n-uple (2, 1, 0)
+		// which is to be understood as 2 ONE and 1 TWO 
+		// is associated with (1,1,2) but also (1,2,1) and (2,1,1).
+		// The formula used is sol=k!/prod(n_i!).
 		
+//		//DEBUG
 //		compteur=compteur.add(BigInteger.ONE);
-//		if (output) {
-//			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
-//		}
-		
-		// simplif du calcul de quotient de factorielle. 
-		// Il est prouvable que le plus grand element dans eqSol serra toujours eqSol[0] à cause
-		// de la condition sur le produit. eqSol[0] minimum egal k - LN(n)/LN(2).
+
+		// It can proven that the highest element (n_i) in esQol will always be eqSol[0]
+		// because of the condition on the product. eqSol[0]_minimum = k - LN(n)/LN(2).
+		// => eqSol[0]_minimum > k/2. This can be used to simplify the calculation of k!.
 		BigInteger answer=BigInteger.ONE;
 		for(int i=eqSol[0]+1;i<=k;i++)
 			answer=answer.multiply(BigInteger.valueOf(i));
 		
-		// calcul des factorielles restantes
+		// Computing of the remaining factorials.
 		for(int i=1; i<=indMax;i++) //
 			if(eqSol[i]>1)
 				answer=answer.divide(BigIntegerMath.factorial(eqSol[i]));

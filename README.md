@@ -15,6 +15,8 @@ La troisème version (Attempt3) arrive à ressoudre le problèmes avec des valeu
 
 20/02/2015 m=n=10.000 en moins de 10 secondes et 100.000 en moins de 20min. 
 
+22/02/2015 Avec les nouvelles améliorations, 10^6 a été résolu pour la premiere fois ! Le calcul a pris un heure et demie.
+
 * EN
 
 Attemps at solving the 452th problem in the Euler Project

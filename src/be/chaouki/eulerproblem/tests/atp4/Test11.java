@@ -1,4 +1,4 @@
-package be.chaouki.eulerproblem.tests;
+package be.chaouki.eulerproblem.tests.atp4;
 
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -17,7 +17,7 @@ import com.google.common.math.BigIntegerMath;
  * @author Chaouki
  *
  */ 
-public class Test12 {
+public class Test11 {
 
 	private static final boolean output = false;
 	private static long compteur = 0;
@@ -26,9 +26,9 @@ public class Test12 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 10, k = n;
+		int n = 500, k = n;
 		
-		// Warm-up so the order of testing doesnt influence the results - it lasts a few seconds
+		// Warm-up so the order of testing doesnt influence the results - last a few seconds
 //		for(int j=0;j<10000 ; j++)
 //			for(int i=0;i<1000000 ; i++){
 //				long a=463543*54324354;
@@ -36,6 +36,7 @@ public class Test12 {
 		
 //		while(true)
 		{
+			
 			long debut = System.nanoTime();
 			gen_comb_w_rep(n, k);
 			long fin = System.nanoTime();
@@ -54,14 +55,12 @@ public class Test12 {
 		eqSol[0] = k;
 		for(int i=1 ; i<n ; i++)
 			eqSol[i]=0;
-		compteur++;
 		
 		int loopCount=0;//DEBUG
 		
 		int currentIndex[]={0, 0}; //currentIndex0 <= currentIndex1
 		boolean hasMoreSolution=true, reusableSolution=false;
 		long solutionSave = 0;
-		boolean skipCombSearch=false;
 		while(hasMoreSolution){
 //			//DEBUG
 //			loopCount++;
@@ -69,64 +68,14 @@ public class Test12 {
 //				return;
 //			//DEBUG
 			
-			if(!skipCombSearch && currentIndex[1]!=n-1){
-				// Search of the next combination: (?,...,X,0,...,0) -> (?,...,X-1,1,...,0) where X>1
-				int ind=currentIndex[1];// ind is the index for 1st non null element starting from the right side
-				
-				eqSol[ind]--;
-				eqSol[ind+1]=1;
-				
-				reusableSolution=false;
-				currentIndex[0]=ind; //if(eqSol[ind]==0)throw new AssertionError();
-				currentIndex[1]++;
-				
-				if(!Tools.prodAboveLimitES(eqSol, eqSol.length)){
-					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
-					int start=ind+1, end=n-1;
-					// apply end case (?,...,X-1,0,...,1) and see if its a solution
-					eqSol[start]--;
-					if(!Tools.prodAboveLimitES(eqSol, eqSol.length)){
-						// bingo, a LOT of calculations and method calls can be skipped very easily.
-						// basicly, from (?,...,X-1,1,...,0) to (?,...,X-1,0,...,1) in one step.
-						
-					} else{
-						// from this point, we know that (?,...,X-1,1,...,0) is a solution
-						// but (?,...,X-1,0,...,1) is not. lets find the highest index
-						// of the right sided "1" for which the vector is solution 
-						// using a form of binary search.
-						end=binarySearch(eqSol, ind+1, n-1);
-					}
-					
-					eqSol[end]++;
-					compteur+=(solutionSave*(long)(end-start));
-					compteur%=MOD_VALUE_L;
-					reusableSolution=true;
-					currentIndex[1]=end;
-					continue;
-				} else{
-					hasMoreSolution=skipUnnecessaryCombinations(eqSol, currentIndex);
-					if(!hasMoreSolution)
-						return;
-				}
-				
-//				continue;
-			}
-			else if(!skipCombSearch && currentIndex[1]==n-1){
-				// search for the next combination:
-				//(?,...,X,...,Y) or (?,...,X,Y) -> (?,...,X-1,Y+1,...,0) and (?,...,X-1,Y+1) respectively
-				int ind=currentIndex[0];// ind is the index for 2nd non null element starting from the right side
-				eqSol[ind]--;
-				eqSol[ind+1]=eqSol[n-1]+1;
-				if(ind+1!=n-1){
-					eqSol[n-1]=0;
-					currentIndex[1]=ind+1; // keeping the indexes updated
-				}
-				
-				// reusability of the solution
-				reusableSolution=false;
-				
-//				continue;
-			}
+			//DEBUG
+//			if(eqSol[0]==506 && eqSol[1]==2 && eqSol[2]==4)
+//				System.out.println("debug");
+			
+			//DEBUG
+//			for(int i=0 ; i<eqSol.length ; i++)
+//				if(eqSol[i]<0)
+//					throw new AssertionError();
 			
 			display(eqSol);
 			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
@@ -139,6 +88,66 @@ public class Test12 {
 					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
 					
 				compteur=(solutionSave+compteur)%MOD_VALUE_L;
+			}
+			
+			if(currentIndex[1]!=n-1){
+				// searching for the next combination...
+				int ind=currentIndex[1];// ind is the index for 1st non null element starting from the right side
+				
+				eqSol[ind]--;
+				eqSol[ind+1]++;
+				
+				// General case (?,...,X,0,...,0) -> (?,...,X-1,1,...,0) where X>1
+				reusableSolution=false;
+				currentIndex[0]=ind;
+				currentIndex[1]++;
+				
+				if(!Tools.prodAboveLimitES(eqSol, eqSol.length)){
+					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
+					// apply end case (?,...,X-1,0,...,1) and see if its a solution
+					eqSol[ind+1]--;
+					eqSol[n-1]++;
+					int start=ind+1, end;
+					if(!Tools.prodAboveLimitES(eqSol, eqSol.length)){
+						// bingo, a LOT of calculations and method calls can be skipped very easily.
+						// basicly, from (?,...,X-1,1,...,0) to (?,...,X-1,0,...,1) in one step.
+						end=n-1;
+						
+					} else{
+						eqSol[n-1]--;
+						// from this point, we know that (?,...,X-1,1,...,0) is a solution
+						// but (?,...,X-1,0,...,1) is not. lets find the highest index
+						// of the right sided "1" for which the vector is solution 
+						// using a form of binary search.
+						end=binarySearch(eqSol, ind+1, n-1);
+						eqSol[end]++;
+					}
+					
+					compteur+=(solutionSave*(long)(end-start));
+					compteur%=MOD_VALUE_L;
+					reusableSolution=true;
+					currentIndex[1]=end;
+				}
+				
+				continue;
+			}
+			else{
+				// searching for the next combination...
+				int ind=currentIndex[0];// ind is the index for 2nd non null element starting from the right side
+				
+				// otherwise we found a new combination. 
+				//(?,...,X,...,Y) or (?,...,X,Y) -> (?,...,X-1,Y+1,...,0) and (?,...,X-1,Y+1) respectively
+				eqSol[ind]--;
+				eqSol[ind+1]=eqSol[n-1]+1;
+				if(ind+1!=n-1){
+					eqSol[n-1]=0;
+					currentIndex[1]=ind+1; // keeping the indexes updated
+				}
+				
+				// reusability of the solution
+				reusableSolution=false;
+				
+				continue;
 			}
 		}
 	}
@@ -203,14 +212,16 @@ public class Test12 {
 		return true;
 	}
 	
-	/**	<p>This function calculates all the possible permutations of the k-tuple associated
-		with a n-tuple given in parameter (eqSol).</p> Example, the n-tuple (2, 1) (n=2 and k=3 here)
-		which is to be understood as 2 ONE and 1 TWO, is associated with the k-tuple (1,1,2)
-		 but also (1,2,1) and (2,1,1).
-		<p>The formula used is sol=k!/prod(n_i!).</p>
-	 * 
-	 */
 	public static long computeSolution(int eqSol[], int k, int indMax){
+		// This function calculates all the possible permutations of the k-tuple associated
+		// with a n-tuple given in parameter (eqSol). Example, the n-uple (2, 1) (n=2 here)
+		// which is to be understood as 2 ONE and 1 TWO 
+		// is associated with (1,1,2) but also (1,2,1) and (2,1,1) (k=3 here).
+		// The formula used is sol=k!/prod(n_i!).
+		
+//		//DEBUG
+//		compteur=compteur.add(BigInteger.ONE);
+
 		// It can proven that the highest element (n_i) in esQol will always be eqSol[0]
 		// because of the condition on the product: eqSol[0]_minimum = k - LN(n)/LN(2).
 		// => eqSol[0]_minimum > k/2 which makes eqSol[0]_minimum the highest element of eqSol
@@ -225,12 +236,14 @@ public class Test12 {
 			if(eqSol[i]>1)
 				answer=answer.divide(BigIntegerMath.factorial(eqSol[i]));
 		
+		System.out.println(Arrays.toString(Arrays.copyOf(eqSol, 25))+" "+answer.mod(MOD_VALUE).longValue());
 		return answer.mod(MOD_VALUE).longValue();
 	}
 	
 	public static void display(int eqSol[]){
 		if (output) {
 			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
+
 		}
 	}
 }

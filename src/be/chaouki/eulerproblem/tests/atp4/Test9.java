@@ -1,4 +1,4 @@
-package be.chaouki.eulerproblem.tests;
+package be.chaouki.eulerproblem.tests.atp4;
 
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -7,29 +7,30 @@ import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import be.chaouki.eulerproblem.utils.Tools;
-
 import com.google.common.math.BigIntegerMath;
 
+import be.chaouki.eulerproblem.utils.Tools;
+
 /** custom made method. search of the k-combinations of a n set with repetition.
- * the solutions are in the form of the solution of the diophantine equation sum(xi)=k for 1<=i<=n
+ * the solutions are in the form of the solution of the diophantine equation sum(xi)=k for 1<i<n
  * 
  * @author Chaouki
  *
- */ 
-public class Test10 {
+ */
+public class Test9 {
 
-	private static final boolean output = true;
-	private static BigInteger compteur = BigInteger.ZERO;
+	private static boolean output = true;
+	private static int compteur = 0;
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 8, k = 5;
-		
+		int n = 8, k = 3;
 		long debut = System.nanoTime();
+
+//		gen_comb_wo_rep(n, k);
 		gen_comb_w_rep(n, k);
-		long fin = System.nanoTime();
 		System.out.println(compteur);
+		long fin = System.nanoTime();
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
 		
 	}
@@ -43,13 +44,12 @@ public class Test10 {
 		
 		boolean hasMoreSol=true;
 		while(hasMoreSol){
-			doStuffWithSolution(eqSol, k);
-//			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
-//				hasMoreSol=skipUnnecessarySolutions(eqSol);
-//				continue;
-//			}
-//			else
-//				;
+			if(Tools.prodAboveLimitES(eqSol, eqSol.length)){
+				hasMoreSol=skipUnnecessarySolutions(eqSol);
+				continue;
+			}
+			else
+				doStuffWithSolution(eqSol);
 			
 			if(eqSol[n-1]==0){
 				// searching for the next combination...
@@ -111,35 +111,14 @@ public class Test10 {
 		eqSol[indA+1]=eqSol[indB]+1;
 		if(indA+1!=indB)
 			eqSol[indB]=0;
-//		else{
-//			//check if there are non null elements at the left of indA
-//			int ind;
-//			for(ind=indA-1 ; ind>=0 ; ind--)
-//				if(eqSol[ind]!=0)
-//					break;
-//			if(ind==-1) //if not, the search if over
-//				return false;
-//		}
 		
 		return true;
 	}
 	
-	public static void doStuffWithSolution(int eqSol[], int k){
-		
-//		compteur=compteur.add(BigInteger.ONE);
+	public static void doStuffWithSolution(int eqSol[]){
+		compteur++;
 		if (output) {
 			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
 		}
-		
-		// simplif du calcul de quotient de factorielle
-		BigInteger answer=BigInteger.ONE;
-		for(int i=eqSol[0]+1;i<=k;i++)
-			answer=answer.multiply(BigInteger.valueOf(i));
-		
-		// calcul des factorielles restantes
-		for(int i=1; i<eqSol.length;i++) //
-			answer=answer.divide(BigIntegerMath.factorial(eqSol[i])); 
-		
-		compteur=compteur.add(answer);
 	}
 }

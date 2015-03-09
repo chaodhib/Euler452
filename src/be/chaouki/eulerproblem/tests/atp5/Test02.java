@@ -1,4 +1,4 @@
-package be.chaouki.eulerproblem.tests;
+package be.chaouki.eulerproblem.tests.atp5;
 
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @author Chaouki
  *
  */
-public class Test14 {
+public class Test02 {
 	
 	private final static int N=7, I=100;
 

@@ -1,4 +1,4 @@
-package be.chaouki.eulerproblem.tests;
+package be.chaouki.eulerproblem.tests.atp4;
 
 import java.util.Arrays;
 

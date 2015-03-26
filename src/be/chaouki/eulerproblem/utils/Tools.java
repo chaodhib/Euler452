@@ -51,6 +51,19 @@ public class Tools {
 		return false;
 	}
 	
+	public static boolean prodAboveLimitESShifted(byte[] eqSol, int lim) {
+		long prod=1;
+//		for(int i=eqSol.length-1 ; i>0 ; i--){
+		for(int i=0 ; i<eqSol.length ; i++){
+			for(int j=0 ; j<eqSol[i] ; j++){
+				prod*=i+2;
+				if(prod>lim)
+					return true;
+			}
+		}
+		return false;
+	}
+	
 	public static String scientificFormatBigInteger(BigInteger a){
 		if(a.compareTo(new BigInteger("10"))==-1)
 			return a.toString()+".000 e0";

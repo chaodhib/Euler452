@@ -2,6 +2,8 @@ package be.chaouki.eulerproblem.tests.atp5;
 
 import java.util.Arrays;
 
+import be.chaouki.eulerproblem.utils.Tools;
+
 /**from the C program found here: 
  * http://www.aconnect.de/friends/editions/computer/combinatoricode_e.html#Permutations
  * A detailed explanation of the algorithm can be found here:
@@ -11,34 +13,34 @@ import java.util.Arrays;
  *
  */
 public class Test03 {
-	
-	private static final int GEN_TERM=0;
-	private static final int GEN_NEXT=1;
+
+	private static int count;
 
 	public static void main(String[] args) {
 		long debut = System.nanoTime();
-		byte vect[]={0,0,1,1,2};
+		byte vect[]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,2};
 		
-		int moreSol=1;
-		while(moreSol==GEN_NEXT){
-			treatSolution(vect);
-			moreSol=gen_perm_rep_lex_next(vect, vect.length);
-		}
-			
+		do{
+			treatSolution(vect, vect.length+1);
+		} while(gen_perm_rep_lex_next(vect));
+		
+		
 			
 		long fin = System.nanoTime();
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
+		System.out.println("count: "+count);
 	}
 
-	private static void treatSolution(byte[] vect) {
+	private static void treatSolution(byte[] vect, int lim) {
+//		System.out.println(Arrays.toString(vect) +" "+ aboveLimitReverseM(vect, lim) +" "+Tools.prodAboveLimitES(vect, lim));
 		System.out.println(Arrays.toString(vect));
-		
+		count++;
 	}
 
-	private static int gen_perm_rep_lex_next(byte vector[], int n)
+	public static boolean gen_perm_rep_lex_next(byte vector[])
 	{
-	int j = n - 2; //index
-	int i = n - 1; //help index
+	int j = vector.length - 2; //index
+	int i = vector.length - 1; //help index
 	byte temp;      //auxiliary element
 
 	//find rightmost element to increase
@@ -52,7 +54,7 @@ public class Test03 {
 
 	//terminate if all elements are in decreasing order
 	if(j < 0)
-	 return(GEN_TERM);
+	 return false;
 
 	//find i
 	while(vector[i] <= vector[j])
@@ -64,13 +66,26 @@ public class Test03 {
 	vector[i] = temp;
 
 	//reverse right-hand elements
-	for(j += 1, i = n - 1; j < i;  j++, i--)
+	for(j += 1, i = vector.length - 1; j < i;  j++, i--)
 	 {
 	 temp = vector[j];
 	 vector[j] = vector[i];
 	 vector[i] = temp;
 	 }
 
-	return(GEN_NEXT);
+	return true;
+	}
+	
+	private static boolean aboveLimitReverseM(byte vector[], int lim){
+		long prod=1;
+//		for(int i=eqSol.length-1 ; i>0 ; i--){
+		for(int i=vector.length-1 ; i>=0 ; i--){
+			for(int j=0 ; j<vector[i] ; j++){
+				prod*=vector.length+1-i;
+				if(prod>lim)
+					return true;
+			}
+		}
+		return false;
 	}
 }

@@ -15,34 +15,44 @@ public class Test02 {
 	
 	private final static int N=7, I=100;
 
+	/*
 	public static void main(String[] args) {
 		long debut = System.nanoTime();
-		partition(N);
-		partitionWithOffset(N, 1);
+		partition(N, new PartitionUser(){
+			
+			@Override
+			public void usePartition(int[] vect, int l) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+//		partitionWithOffset(N, 1, I);
 		long fin = System.nanoTime();
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
 	}
+	*/
 	
-	public static void partition(int n) {
-		int vect[]=new int[n];
-        partition(n, n, vect, 0);
+	public static void partition(int n, PartitionUser pu) {
+		byte vect[]=new byte[n];
+        partition(n, n, vect, 0, pu);
     }
 	
-	public static void partitionWithOffset(int n, int offset) {
-		int vect[]=new int[n+1];
-		vect[0]=I-n;
-        partition(n, n, vect, offset);
-    }
+//	public static void partitionWithOffset(int n, int offset, int base, int ind, PartitionUser pu) {
+//		int vect[]=new int[n+1];
+//		vect[0]=base-n;
+//        partition(n, n, vect, offset, pu);
+//    }
 	
-    private static void partition(int n, int max, int vect[], int ind) {
+    private static void partition(int n, int max, byte vect[], int ind, PartitionUser pu) {
         if (n == 0) {
-            System.out.println(Arrays.toString(vect)); //Treatment on the vector should be placed here
+            pu.usePartition(vect); //Treatment on the vector
             return;
         }
   
-        for (int i = Math.min(n, max); i >= 1; i--) {
+        for (byte i = (byte) Math.min(n, max); i >= 1; i--) {
         	vect[ind]=i;
-            partition(n-i, i, vect, ind+1);
+            partition(n-i, i, vect, ind+1, pu);
             vect[ind]=0;
         }
     }

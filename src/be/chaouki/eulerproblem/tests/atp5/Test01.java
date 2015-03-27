@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import com.google.common.math.BigIntegerMath;
 
 public class Test01 {
-	private static final boolean output = true;
+	private static final boolean output = false;
 	private static long solutionCount = 0;
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.2310^9
 	private static final long MOD_VALUE_L=1234567891;
@@ -17,8 +17,8 @@ public class Test01 {
 		 *  m					<=>	n
 		 *  n					<=>	k
 		 */
-		int m=60, n=m;
-//		while(true){
+		int m=10 , n=m;
+		while(true){
 			long debut = System.nanoTime();
 			generateCombinations(m,n);
 			long fin = System.nanoTime();
@@ -28,7 +28,7 @@ public class Test01 {
 			solutionCount=0;
 			m+=1;
 			n=m;
-//		}
+		}
 	}
 	
 	private static void prepFactorials(int n) {

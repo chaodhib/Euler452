@@ -19,14 +19,14 @@ import com.google.common.math.BigIntegerMath;
  */ 
 public class Test11 {
 
-	private static final boolean output = true;
+	private static final boolean output = false;
 	private static long compteur = 0;
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 18, k = n;
+		int n = 10, k = n;
 		
 		// Warm-up so the order of testing doesnt influence the results - last a few seconds
 //		for(int j=0;j<10000 ; j++)
@@ -34,7 +34,7 @@ public class Test11 {
 //				long a=463543*54324354;
 //		}
 		
-//		while(true){
+		while(true){
 			long debut = System.nanoTime();
 			gen_comb_w_rep(n, k);
 			long fin = System.nanoTime();
@@ -44,7 +44,7 @@ public class Test11 {
 			compteur=0;
 			n+=1;
 			k=n;
-//		}
+		}
 	}
 	
 	public static void gen_comb_w_rep(int n, int k) {
@@ -85,7 +85,8 @@ public class Test11 {
 				if(!reusableSolution)
 					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
 					
-				compteur=(solutionSave+compteur)%MOD_VALUE_L;
+//				compteur=(solutionSave+compteur)%MOD_VALUE_L;
+				compteur+=solutionSave;
 			}
 			
 			if(currentIndex[1]!=n-1){
@@ -122,7 +123,7 @@ public class Test11 {
 					}
 					
 					compteur+=(solutionSave*(long)(end-start));
-					compteur%=MOD_VALUE_L;
+//					compteur%=MOD_VALUE_L;
 					reusableSolution=true;
 					currentIndex[1]=end;
 				}
@@ -235,7 +236,10 @@ public class Test11 {
 				answer=answer.divide(BigIntegerMath.factorial(eqSol[i]));
 		
 //		System.out.println(Arrays.toString(Arrays.copyOf(eqSol, 25))+" "+answer.mod(MOD_VALUE).longValue());
-		return answer.mod(MOD_VALUE).longValue();
+//		System.out.println(Arrays.toString(Arrays.copyOf(eqSol, 25))+" "+answer.longValue());
+		
+//		return answer.mod(MOD_VALUE).longValue();
+		return answer.longValue();
 	}
 	
 	public static void display(int eqSol[]){

@@ -11,7 +11,7 @@ public class PartitionUser {
 	
 //	public static BigInteger count;
 	private long countT;
-	private int count;
+	private long count;
 
 	private int n ,k;
 	private long solution;
@@ -20,7 +20,7 @@ public class PartitionUser {
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 	
-	private static final boolean OUTPUT=true;
+	private static final boolean OUTPUT=false;
 	
 	public PartitionUser(int size, int k, int n){
 //		count=BigInteger.ZERO;
@@ -46,6 +46,9 @@ public class PartitionUser {
 			//copy the partition into the eqSol vector
 			for(int i=0; i<partitionVector.length ; i++)
 				eqSol[i]=partitionVector[i];
+			//and clean the right side of the vector unaffected by the copy of partitionVector
+			for(int i=partitionVector.length ; i<eqSol.length ; i++)
+				eqSol[i]=0;
 			
 			findPermuts((byte)partitionVector.length, 0);
 		} while(Test03.gen_perm_rep_colex_next(partitionVector));

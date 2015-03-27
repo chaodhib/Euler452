@@ -10,47 +10,52 @@ import be.chaouki.eulerproblem.utils.Tools;
 public class PartitionUser {
 	
 //	public static BigInteger count;
-	public static long countT;
+	private long countT;
 	private int count;
 
 	private int n ,k;
-	public long solution;
+	private long solution;
 	private byte[] eqSol;
 	
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 	
+	private static final boolean OUTPUT=true;
+	
 	public PartitionUser(int size, int k, int n){
 //		count=BigInteger.ZERO;
+		countT=0;
 		eqSol=new byte[size];
 		this.n=n;
 		this.k=k;
 	}
 
-	public void usePartition(byte[] partitionVector) {
+	public void usePartition(byte[] partitionVector, int I) {
+		if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PARTITION----");
 		count=0;
 //		System.out.println(Arrays.toString(partitionVector));
-		byte partitionLength=0;
-		while(partitionLength<partitionVector.length && partitionVector[partitionLength]!=0)
-			partitionLength++;
 		
 		// if partitionVector=[a, b, c, d], the first step is to get all permutations of this same set.
 		// meaning: [b, a, c ,d], [b, c, a, d], [b, c, d, a], etc...
 		// the algorithm used here MUST support repetitions (for instance, a=b).
 		
 		do{
-			if(partitionLength>eqSol.length)
+			if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PERMUTATION----");
+			if(partitionVector.length>eqSol.length)
 				break;
 			//copy the partition into the eqSol vector
-			for(int i=0; i<partitionLength ; i++)
+			for(int i=0; i<partitionVector.length ; i++)
 				eqSol[i]=partitionVector[i];
 			
-			findPermuts(partitionLength, 0);
-		} while(Test03.gen_perm_rep_lex_next(partitionVector));
+			findPermuts((byte)partitionVector.length, 0);
+		} while(Test03.gen_perm_rep_colex_next(partitionVector));
 		
 		if(count>0){
-			int I=partitionVector.length; //this is the same i as in Test01.generateCombinations()
-			countT+=computeSolution(partitionVector, I, k, partitionLength-1)*count;
+			if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+", count="+count);
+			countT+=(computeSolution(partitionVector, I, k)*count);
+			
+//			countT+=(computeSolution(partitionVector, I, k, partitionLength-1)*(count%MOD_VALUE_L))%MOD_VALUE_L;
+//			countT=countT%MOD_VALUE_L;
 		}
 	}
 
@@ -62,7 +67,7 @@ public class PartitionUser {
 			if(length==1){
 //				count=count.add(BigInteger.ONE);
 				count++;
-				System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
+				if(OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
 			}
 			findPermuts((byte) (length-1), startInd+1);
 			
@@ -88,7 +93,7 @@ public class PartitionUser {
 //		return true;
 	}
 	
-	public static long computeSolution(byte partitionVector[], int I, int k, int indMax){
+	public static long computeSolution(byte partitionVector[], int I, int k){
 		// This function calculates all the possible permutations of the k-tuple associated
 		// with a n-tuple given in parameter (eqSol). Example, the n-uple (2, 1) (n=2 here)
 		// which is to be understood as 2 ONE and 1 TWO 
@@ -108,14 +113,19 @@ public class PartitionUser {
 			answer=answer.multiply(BigInteger.valueOf(i));
 		
 		// Computing of the remaining factorials.
-		for(int i=0; i<=indMax;i++){
+		for(int i=0; i<partitionVector.length;i++){
 			if(partitionVector[i]<=0)
 				throw new AssertionError();
 			answer=answer.divide(BigIntegerMath.factorial(partitionVector[i]));
 		}
 		
-		System.out.println(Arrays.toString(Arrays.copyOf(partitionVector, indMax+1))+"--"+answer.mod(MOD_VALUE).longValue());
-		return answer.mod(MOD_VALUE).longValue();
+		if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+"--"+answer.mod(MOD_VALUE).longValue());
+//		return answer.mod(MOD_VALUE).longValue();
+		return answer.longValue();
+	}
+
+	public long getCountT() {
+		return countT;
 	}
 
 }

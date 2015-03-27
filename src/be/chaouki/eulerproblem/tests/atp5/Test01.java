@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import com.google.common.math.BigIntegerMath;
 
 public class Test01 {
-	private static final boolean output = false;
+	private static final boolean output = true;
 	private static long solutionCount = 0;
-	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
+	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.2310^9
 	private static final long MOD_VALUE_L=1234567891;
 	
 	private static BigInteger factorialSave[];
@@ -17,12 +17,18 @@ public class Test01 {
 		 *  m					<=>	n
 		 *  n					<=>	k
 		 */
-		final int m=10, n=m; 
-		
-		prepFactorials(m);
-		generateCombinations(m,n);
-		
-		System.out.println(solutionCount);
+		int m=60, n=m;
+//		while(true){
+			long debut = System.nanoTime();
+			generateCombinations(m,n);
+			long fin = System.nanoTime();
+			System.out.println(solutionCount);
+			System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+m+" , k="+n);
+			
+			solutionCount=0;
+			m+=1;
+			n=m;
+//		}
 	}
 	
 	private static void prepFactorials(int n) {
@@ -42,7 +48,9 @@ public class Test01 {
 		solutionCount++;
 		
 		// first serie of solutions: (k-1 1 0...0) to (k-1 0...0 1) (because product equals 1+index_of_the_1)
-		solutionCount+=n-1;
+		solutionCount+=(n-1)*n;
+		
+//		solutionCount%=MOD_VALUE_L;
 		
 		final int limit=(int) (Math.log(n)/Math.log(2.0));
 		for(int i=2  ; i<=limit ; i++){
@@ -56,7 +64,8 @@ public class Test01 {
 			// a lot of permutations known to not be a solution.
 			Test02.partition(i, pu);
 			
-			solutionCount+=pu.countT;
+			solutionCount+=pu.getCountT();
+//			solutionCount%=MOD_VALUE_L;
 			
 		}
 	}

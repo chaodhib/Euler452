@@ -46,7 +46,13 @@ public class Test02 {
 	
     private static void partition(int n, int max, byte vect[], int ind, PartitionUser pu) {
         if (n == 0) {
-            pu.usePartition(vect); //Treatment on the vector
+        	// vect nows contains the desire partition. except it may contains right side zeros 
+        	// Example, one of the partitions of 6 is [4 2 0 0 0 0]. the following lines copy all 
+        	// non zeros into a new vector that will be passed to the usePartition() method.
+        	byte partitionLength=0;
+    		while(partitionLength<vect.length && vect[partitionLength]!=0)
+    			partitionLength++;
+            pu.usePartition(Arrays.copyOf(vect, partitionLength), vect.length); //Treatment on the vector
             return;
         }
   

@@ -18,14 +18,14 @@ public class Test03 {
 
 	public static void main(String[] args) {
 		long debut = System.nanoTime();
-		byte vect[]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,2};
+//		byte vect[]={0,0,0,2,1,2};
+		byte vect[]={2,1,2,0,0,0};
 		
 		do{
 			treatSolution(vect, vect.length+1);
-		} while(gen_perm_rep_lex_next(vect));
+//		} while(gen_perm_rep_lex_next(vect));
+		} while(gen_perm_rep_colex_next(vect));
 		
-		
-			
 		long fin = System.nanoTime();
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
 		System.out.println("count: "+count);
@@ -37,6 +37,12 @@ public class Test03 {
 		count++;
 	}
 
+	/**from http://www.aconnect.de/friends/editions/computer/combinatoricode_e.html
+	 * method to generate permutations.
+	 * 
+	 * @param vector
+	 * @return
+	 */
 	public static boolean gen_perm_rep_lex_next(byte vector[])
 	{
 	int j = vector.length - 2; //index
@@ -67,6 +73,51 @@ public class Test03 {
 
 	//reverse right-hand elements
 	for(j += 1, i = vector.length - 1; j < i;  j++, i--)
+	 {
+	 temp = vector[j];
+	 vector[j] = vector[i];
+	 vector[i] = temp;
+	 }
+
+	return true;
+	}
+	
+	/**Modified method to generate permutations (which can manage repetitions) in order to generate 
+	 * them in the colexicographic order. See method above.
+	 * 
+	 * @param vector
+	 * @return
+	 */
+	public static boolean gen_perm_rep_colex_next(byte vector[])
+	{
+	int j = 1; //index
+	int i = 0; //help index
+	byte temp;      //auxiliary element
+
+	//find leftmost element to increase
+	while(j < vector.length)
+	 {
+	 if(vector[j-1] > vector[j])
+	  break;
+
+	 j++;
+	 }
+
+	//terminate if all elements are in decreasing order
+	if(j >= vector.length)
+	 return false;
+
+	//find i
+	while(vector[i] <= vector[j])
+	 i++;
+
+	//increase (swap)
+	temp = vector[j];
+	vector[j] = vector[i];
+	vector[i] = temp;
+
+	//reverse left-hand elements
+	for(j -= 1, i = 0; j >= i;  j--, i++)
 	 {
 	 temp = vector[j];
 	 vector[j] = vector[i];

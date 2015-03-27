@@ -20,10 +20,7 @@ public class PartitionUser {
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 	
-	private static final boolean OUTPUT=false;
-	
 	public PartitionUser(int size, int k, int n){
-//		count=BigInteger.ZERO;
 		countT=0;
 		eqSol=new byte[size];
 		this.n=n;
@@ -31,7 +28,7 @@ public class PartitionUser {
 	}
 
 	public void usePartition(byte[] partitionVector, int I) {
-		if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PARTITION----");
+		if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PARTITION----");
 		count=0;
 //		System.out.println(Arrays.toString(partitionVector));
 		
@@ -40,7 +37,7 @@ public class PartitionUser {
 		// the algorithm used here MUST support repetitions (for instance, a=b).
 		
 		do{
-			if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PERMUTATION----");
+			if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PERMUTATION----");
 			if(partitionVector.length>eqSol.length)
 				break;
 			//copy the partition into the eqSol vector
@@ -51,14 +48,18 @@ public class PartitionUser {
 				eqSol[i]=0;
 			
 			findPermuts((byte)partitionVector.length, 0);
-		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector));
+		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector)); // generate next permutation 
+																				// in colexicographic order
 		
 		if(count>0){
-			if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+", count="+count);
-			countT+=(computeSolution(partitionVector, I, k)*count);
+			if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+", count="+count);
 			
-//			countT+=(computeSolution(partitionVector, I, k, partitionLength-1)*(count%MOD_VALUE_L))%MOD_VALUE_L;
-//			countT=countT%MOD_VALUE_L;
+			if(Launcher.USE_MODULO){
+				countT+=(computeSolution(partitionVector, I, k)*(count%MOD_VALUE_L))%MOD_VALUE_L;
+				countT=countT%MOD_VALUE_L;
+			} else{
+				countT+=(computeSolution(partitionVector, I, k)*count);
+			}
 		}
 	}
 
@@ -70,7 +71,7 @@ public class PartitionUser {
 			if(length==1){
 //				count=count.add(BigInteger.ONE);
 				count++;
-				if(OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
+				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
 			}
 			findPermuts((byte) (length-1), startInd+1);
 			
@@ -93,24 +94,9 @@ public class PartitionUser {
 	
 	private boolean isSolution(byte vect[]){
 		return !Tools.prodAboveLimitESShifted(eqSol, n);
-//		return true;
 	}
 	
 	public static long computeSolution(byte partitionVector[], int I, int k){
-		// This function calculates all the possible permutations of the k-tuple associated
-		// with a n-tuple given in parameter (eqSol). Example, the n-uple (2, 1) (n=2 here)
-		// which is to be understood as 2 ONE and 1 TWO 
-		// is associated with (1,1,2) but also (1,2,1) and (2,1,1) (k=3 here).
-		// The formula used is sol=k!/prod(n_i!).
-		
-//		//DEBUG
-//		compteur=compteur.add(BigInteger.ONE);
-
-		// It can proven that the highest element (n_i) in eqSol will always be eqSol[0]
-		// because of the condition on the product: eqSol[0]_minimum = k - LN(n)/LN(2).
-		// => eqSol[0]_minimum > k/2 which makes eqSol[0]_minimum the highest element of eqSol
-		// which makes eqSol[0] itself the highest element of eqSol. 
-		// This can be used to simplify the calculation of k!.
 		BigInteger answer=BigInteger.ONE;
 		for(int i=k;I>0;I--, i--)
 			answer=answer.multiply(BigInteger.valueOf(i));
@@ -122,9 +108,17 @@ public class PartitionUser {
 			answer=answer.divide(BigIntegerMath.factorial(partitionVector[i]));
 		}
 		
-		if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+"--"+answer.mod(MOD_VALUE).longValue());
-//		return answer.mod(MOD_VALUE).longValue();
-		return answer.longValue();
+		if(Launcher.OUTPUT) {
+			if(Launcher.USE_MODULO)
+				System.out.println(Arrays.toString(partitionVector)+"--"+answer.mod(MOD_VALUE).longValue());
+			else
+				System.out.println(Arrays.toString(partitionVector)+"--"+answer.longValue());
+		}
+		
+		if(Launcher.USE_MODULO)
+			return answer.mod(MOD_VALUE).longValue();
+		else 
+			return answer.longValue();
 	}
 
 	public long getCountT() {

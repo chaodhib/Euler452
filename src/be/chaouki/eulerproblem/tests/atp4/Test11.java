@@ -19,14 +19,16 @@ import com.google.common.math.BigIntegerMath;
  */ 
 public class Test11 {
 
-	private static final boolean output = false;
+	private static final boolean OUTPUT = false;
+	private static final boolean USE_MODULO = true;
+	
 	private static long compteur = 0;
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 10, k = n;
+		int n = 100, k = n;
 		
 		// Warm-up so the order of testing doesnt influence the results - last a few seconds
 //		for(int j=0;j<10000 ; j++)
@@ -42,7 +44,7 @@ public class Test11 {
 			System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+n+" , k="+k);
 			
 			compteur=0;
-			n+=1;
+			n*=2;
 			k=n;
 		}
 	}
@@ -85,8 +87,10 @@ public class Test11 {
 				if(!reusableSolution)
 					solutionSave=computeSolution(eqSol, k, currentIndex[1]);
 					
-//				compteur=(solutionSave+compteur)%MOD_VALUE_L;
-				compteur+=solutionSave;
+				if(USE_MODULO)
+					compteur=(solutionSave+compteur)%MOD_VALUE_L;
+				else
+					compteur+=solutionSave;
 			}
 			
 			if(currentIndex[1]!=n-1){
@@ -122,8 +126,11 @@ public class Test11 {
 						eqSol[end]++;
 					}
 					
-					compteur+=(solutionSave*(long)(end-start));
-//					compteur%=MOD_VALUE_L;
+					if(USE_MODULO){
+						compteur+=(solutionSave*(long)(end-start))%MOD_VALUE_L;
+						compteur%=MOD_VALUE_L;
+					}else
+						compteur+=(solutionSave*(long)(end-start));
 					reusableSolution=true;
 					currentIndex[1]=end;
 				}
@@ -230,7 +237,7 @@ public class Test11 {
 		for(int i=eqSol[0]+1;i<=k;i++)
 			answer=answer.multiply(BigInteger.valueOf(i));
 		
-		// Computing of the remaining factorials.
+		// Computation of the remaining factorials.
 		for(int i=1; i<=indMax;i++) //
 			if(eqSol[i]>1)
 				answer=answer.divide(BigIntegerMath.factorial(eqSol[i]));
@@ -238,12 +245,14 @@ public class Test11 {
 //		System.out.println(Arrays.toString(Arrays.copyOf(eqSol, 25))+" "+answer.mod(MOD_VALUE).longValue());
 //		System.out.println(Arrays.toString(Arrays.copyOf(eqSol, 25))+" "+answer.longValue());
 		
-//		return answer.mod(MOD_VALUE).longValue();
-		return answer.longValue();
+		if(USE_MODULO)
+			return answer.mod(MOD_VALUE).longValue();
+		else
+			return answer.longValue();
 	}
 	
 	public static void display(int eqSol[]){
-		if (output) {
+		if (OUTPUT) {
 			System.out.println(Arrays.toString(eqSol) + " "+ Tools.prodAboveLimitES(eqSol, eqSol.length));
 
 		}

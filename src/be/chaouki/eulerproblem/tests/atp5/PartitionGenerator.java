@@ -11,27 +11,7 @@ import java.util.Arrays;
  * @author Chaouki
  *
  */
-public class Test02 {
-	
-	private final static int N=7, I=100;
-
-	/*
-	public static void main(String[] args) {
-		long debut = System.nanoTime();
-		partition(N, new PartitionUser(){
-			
-			@Override
-			public void usePartition(int[] vect, int l) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-//		partitionWithOffset(N, 1, I);
-		long fin = System.nanoTime();
-		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
-	}
-	*/
+public class PartitionGenerator {
 	
 	public static void partition(int n, PartitionUser pu) {
 		byte vect[]=new byte[n];

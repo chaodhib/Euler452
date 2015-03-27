@@ -51,7 +51,7 @@ public class PartitionUser {
 				eqSol[i]=0;
 			
 			findPermuts((byte)partitionVector.length, 0);
-		} while(Test03.gen_perm_rep_colex_next(partitionVector));
+		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector));
 		
 		if(count>0){
 			if(OUTPUT) System.out.println(Arrays.toString(partitionVector)+", count="+count);

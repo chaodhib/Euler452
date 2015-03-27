@@ -12,8 +12,9 @@ import be.chaouki.eulerproblem.utils.Tools;
  * @author Chaouki
  *
  */
-public class Test03 {
+public class PermutationGenerator {
 
+	/*
 	private static int count;
 
 	public static void main(String[] args) {
@@ -36,6 +37,20 @@ public class Test03 {
 		System.out.println(Arrays.toString(vect));
 		count++;
 	}
+	
+		private static boolean aboveLimitReverseM(byte vector[], int lim){
+		long prod=1;
+//		for(int i=eqSol.length-1 ; i>0 ; i--){
+		for(int i=vector.length-1 ; i>=0 ; i--){
+			for(int j=0 ; j<vector[i] ; j++){
+				prod*=vector.length+1-i;
+				if(prod>lim)
+					return true;
+			}
+		}
+		return false;
+	}
+	*/
 
 	/**from http://www.aconnect.de/friends/editions/computer/combinatoricode_e.html
 	 * method to generate permutations.
@@ -127,16 +142,5 @@ public class Test03 {
 	return true;
 	}
 	
-	private static boolean aboveLimitReverseM(byte vector[], int lim){
-		long prod=1;
-//		for(int i=eqSol.length-1 ; i>0 ; i--){
-		for(int i=vector.length-1 ; i>=0 ; i--){
-			for(int j=0 ; j<vector[i] ; j++){
-				prod*=vector.length+1-i;
-				if(prod>lim)
-					return true;
-			}
-		}
-		return false;
-	}
+
 }

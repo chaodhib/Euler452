@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 import com.google.common.math.BigIntegerMath;
 
-public class Test01 {
+public class Launcher {
 	private static final boolean output = false;
 	private static long solutionCount = 0;
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.2310^9
@@ -62,7 +62,7 @@ public class Test01 {
 			// and for each partition, we generate all permutations
 			// in a certain order. The order will later help us skip
 			// a lot of permutations known to not be a solution.
-			Test02.partition(i, pu);
+			PartitionGenerator.partition(i, pu);
 			
 			solutionCount+=pu.getCountT();
 //			solutionCount%=MOD_VALUE_L;

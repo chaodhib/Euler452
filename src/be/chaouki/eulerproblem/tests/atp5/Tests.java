@@ -1,6 +1,6 @@
 package be.chaouki.eulerproblem.tests.atp5;
 
-public class Test5 {
+public class Tests {
 
 	public static void main(String[] args) {
 		int l=19; // l=n-1

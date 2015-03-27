@@ -65,11 +65,9 @@ public class PartitionUser {
 
 	private void findPermuts(byte length, int startInd) {
 		int saveStartInd=startInd;
-//		byte save[]=Arrays.copyOfRange(eqSol, startInd, startInd+length);
 		while(isSolution(eqSol) && length>0){
 			// treatment
 			if(length==1){
-//				count=count.add(BigInteger.ONE);
 				count++;
 				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
 			}
@@ -84,7 +82,7 @@ public class PartitionUser {
 			eqSol[startInd]=0;
 			startInd++;
 		}
-		// after the final shift, restore the state
+		// after the final shift, restore the initial state
 		for(int i=0 ; saveStartInd!=startInd && i<length ; i++){
 			eqSol[saveStartInd+i]=eqSol[startInd+i];
 			eqSol[startInd+i]=0;

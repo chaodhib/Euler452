@@ -7,9 +7,13 @@ import be.chaouki.eulerproblem.utils.Tools;
 
 import com.google.common.math.BigIntegerMath;
 
-/**Troisieme implementation d'une solution. 
+/**Quatrième implementation d'une solution. 
  * 
- * Refonte de la methode doPart1() en cours.
+ * Avec cette version, le changement principal est la maniere dont les n-uples sont trouvés.
+ * La principale difficulte est de trouver un algorithme plus efficase pour 
+ * trouver les solutions de l equation diophantine lineare A2 (voir mes notes)
+ * la piste que j'explore actuellement est le fait que ca revient a enumerer les solutions 
+ * d'une combinaison avec remplacements (voir stars and bars problem)
  * 
  * Rappel, la plus grande valeur stockable dans :
 	int  : 2*10^9
@@ -22,12 +26,6 @@ import com.google.common.math.BigIntegerMath;
 	
 	Long n'est néanmoins pas suffisant pour stocker le compteur.
 	Utilisation donc de BigInteger pour contenir compteur.
-	
-	Avec cette version, le changement principal est la maniere dont les n-uples sont trouvés.
-	La principale difficulte est de trouver un algorithme plus efficase pour 
-	trouver les solutions de l equation diophantine lineare A2 (voir mes notes)
-	la piste que j'explore actuellement est le fait que ca revient a enumerer les solutions 
-	d'une combinaison avec remplacements (voir stars and bars problem)
 	
  * @author Chaouki
  *

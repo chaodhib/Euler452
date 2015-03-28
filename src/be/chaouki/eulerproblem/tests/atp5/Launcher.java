@@ -9,6 +9,7 @@ public class Launcher {
 	public static final boolean USE_MODULO = true;
 	
 	private static long solutionCount = 0;
+	
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.2310^9
 	private static final long MOD_VALUE_L=1234567891;
 	

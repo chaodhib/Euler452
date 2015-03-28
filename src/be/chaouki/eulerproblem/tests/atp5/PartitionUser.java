@@ -14,7 +14,6 @@ public class PartitionUser {
 	private long count;
 
 	private int n ,k;
-	private long solution;
 	private byte[] eqSol;
 	
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
@@ -27,14 +26,19 @@ public class PartitionUser {
 		this.k=k;
 	}
 
+	/**	if partitionVector=[a, b, c, d], the first step is to get all permutations of this same set.
+		meaning: [b, a, c ,d], [b, c, a, d], [b, c, d, a], etc...
+		the algorithm used here MUST support repetitions (for instance, a=b).
+	 * 
+	 * @param partitionVector
+	 * @param I
+	 */
 	public void usePartition(byte[] partitionVector, int I) {
+		if(!isSolution(partitionVector))
+			return;
+		
 		if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PARTITION----");
 		count=0;
-//		System.out.println(Arrays.toString(partitionVector));
-		
-		// if partitionVector=[a, b, c, d], the first step is to get all permutations of this same set.
-		// meaning: [b, a, c ,d], [b, c, a, d], [b, c, d, a], etc...
-		// the algorithm used here MUST support repetitions (for instance, a=b).
 		
 		do{
 			if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PERMUTATION----");
@@ -48,8 +52,8 @@ public class PartitionUser {
 				eqSol[i]=0;
 			
 			findPermuts((byte)partitionVector.length, 0);
-		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector)); // generate next permutation 
-																				// in colexicographic order
+		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector) && isSolution(partitionVector)); 
+		// generate next permutation in colexicographic order & test whether or not it's a solution
 		
 		if(count>0){
 			if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+", count="+count);
@@ -63,9 +67,10 @@ public class PartitionUser {
 		}
 	}
 
+	/*
 	private void findPermuts(byte length, int startInd) {
 		int saveStartInd=startInd;
-		while(isSolution(eqSol) && length>0){
+		while(isSolution() && length>0){
 			// treatment
 			if(length==1){
 				count++;
@@ -87,11 +92,64 @@ public class PartitionUser {
 			eqSol[saveStartInd+i]=eqSol[startInd+i];
 			eqSol[startInd+i]=0;
 		}
+	}
+	*/
+	
+	private void findPermuts(byte length, int startInd) {
+		// apply last possible shift
 		
+		// test if solution
+		
+		int saveStartInd=startInd;
+		while(isSolution() && length>0){
+			// treatment
+			if(length==1){
+				count++;
+				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
+			}
+			findPermuts((byte) (length-1), startInd+1);
+			
+			// check if there is one more shift to the right possible
+			if(startInd+length+1>eqSol.length)
+				break;
+			// if so, do it
+			for(int i=startInd+length ; i>startInd ; i--)
+				eqSol[i]=eqSol[i-1];
+			eqSol[startInd]=0;
+			startInd++;
+		}
+		// after the final shift, restore the initial state
+		for(int i=0 ; saveStartInd!=startInd && i<length ; i++){
+			eqSol[saveStartInd+i]=eqSol[startInd+i];
+			eqSol[startInd+i]=0;
+		}
 	}
 	
-	private boolean isSolution(byte vect[]){
+	private int binarySearch(byte[] eqSol, int lo, int hi) {
+		while (lo<hi-1) {
+		    // the index solution should be in [lo..hi[
+		    int mid = lo + (hi - lo) / 2;
+		    
+		    // test then put eqSol back into its original state.
+		    eqSol[mid]++;
+		    boolean isSolution=isSolution();
+		    eqSol[mid]--;
+		    
+		    if(isSolution)
+		    	lo = mid;
+		    else
+		    	hi = mid;
+		}
+		
+		return lo;
+	}
+	
+	private boolean isSolution(){
 		return !Tools.prodAboveLimitESShifted(eqSol, n);
+	}
+	
+	private boolean isSolution(byte vector[]){
+		return !Tools.prodAboveLimitESShifted(vector, n);
 	}
 	
 	public static long computeSolution(byte partitionVector[], int I, int k){

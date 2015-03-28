@@ -94,3 +94,29 @@ le calcul a pris: 16232ms pour n=51200 , k=51200
 
 252903833
 le calcul a pris: 5874195ms pour n=1000000 , k=1000000
+
+----------------------
+Attempt5
+613658361
+le calcul a pris: 83ms pour n=100 , k=100
+1058169388
+le calcul a pris: 5ms pour n=200 , k=200
+547248952
+le calcul a pris: 7ms pour n=400 , k=400
+280923971
+le calcul a pris: 25ms pour n=800 , k=800
+432717221
+le calcul a pris: 75ms pour n=1600 , k=1600
+678425624
+le calcul a pris: 244ms pour n=3200 , k=3200
+561005628
+le calcul a pris: 1092ms pour n=6400 , k=6400
+630575777
+le calcul a pris: 5435ms pour n=12800 , k=12800
+282630105
+le calcul a pris: 23122ms pour n=25600 , k=25600
+666903333
+le calcul a pris: 107281ms pour n=51200 , k=51200
+365020013
+le calcul a pris: 488533ms pour n=102400 , k=102400
+

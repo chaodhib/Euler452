@@ -21,12 +21,12 @@ public class PermutationGenerator {
 		long debut = System.nanoTime();
 //		byte vect[]={0,0,0,2,1,2};
 		byte vect[]={2,1,2,0,0,0};
-		
+
 		do{
 			treatSolution(vect, vect.length+1);
 //		} while(gen_perm_rep_lex_next(vect));
 		} while(gen_perm_rep_colex_next(vect));
-		
+
 		long fin = System.nanoTime();
 		System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms");
 		System.out.println("count: "+count);
@@ -37,7 +37,7 @@ public class PermutationGenerator {
 		System.out.println(Arrays.toString(vect));
 		count++;
 	}
-	
+
 		private static boolean aboveLimitReverseM(byte vector[], int lim){
 		long prod=1;
 //		for(int i=eqSol.length-1 ; i>0 ; i--){
@@ -50,7 +50,7 @@ public class PermutationGenerator {
 		}
 		return false;
 	}
-	*/
+	 */
 
 	/**from http://www.aconnect.de/friends/editions/computer/combinatoricode_e.html
 	 * method to generate permutations.
@@ -60,87 +60,89 @@ public class PermutationGenerator {
 	 */
 	public static boolean gen_perm_rep_lex_next(byte vector[])
 	{
-	int j = vector.length - 2; //index
-	int i = vector.length - 1; //help index
-	byte temp;      //auxiliary element
+		int j = vector.length - 2; //index
+		int i = vector.length - 1; //help index
+		byte temp;      //auxiliary element
 
-	//find rightmost element to increase
-	while(j >= 0)
-	 {
-	 if(vector[j] < vector[j + 1])
-	  break;
+		//find rightmost element to increase
+		while(j >= 0)
+		{
+			if(vector[j] < vector[j + 1])
+				break;
 
-	 j--;
-	 }
+			j--;
+		}
 
-	//terminate if all elements are in decreasing order
-	if(j < 0)
-	 return false;
+		//terminate if all elements are in decreasing order
+		if(j < 0)
+			return false;
 
-	//find i
-	while(vector[i] <= vector[j])
-	 i--;
+		//find i
+		while(vector[i] <= vector[j])
+			i--;
 
-	//increase (swap)
-	temp = vector[j];
-	vector[j] = vector[i];
-	vector[i] = temp;
+		//increase (swap)
+		temp = vector[j];
+		vector[j] = vector[i];
+		vector[i] = temp;
 
-	//reverse right-hand elements
-	for(j += 1, i = vector.length - 1; j < i;  j++, i--)
-	 {
-	 temp = vector[j];
-	 vector[j] = vector[i];
-	 vector[i] = temp;
-	 }
+		//reverse right-hand elements
+		for(j += 1, i = vector.length - 1; j < i;  j++, i--)
+		{
+			temp = vector[j];
+			vector[j] = vector[i];
+			vector[i] = temp;
+		}
 
-	return true;
+		return true;
 	}
-	
-	/**Modified method to generate permutations (which can manage repetitions) in order to generate 
-	 * them in the colexicographic order. See method above.
+
+	/** I modified the method above to generate permutations in the 
+	 * 	colexicographic order. Repetitions in the vector paramter must be supported.
 	 * 
 	 * @param vector
 	 * @return
 	 */
 	public static boolean gen_perm_rep_colex_next(byte vector[])
 	{
-	int j = 1; //index
-	int i = 0; //help index
-	byte temp;      //auxiliary element
+		int j = vector.length - 2; //index
+		int i = vector.length - 1; //help index
+		byte temp;      //auxiliary element
 
-	//find leftmost element to increase
-	while(j < vector.length)
-	 {
-	 if(vector[j-1] > vector[j])
-	  break;
+		//find rightmost element to increase
+		while(j >= 0)
+		{
+			if(vector[j] > vector[j + 1])
+				break;
 
-	 j++;
-	 }
+			j--;
+		}
 
-	//terminate if all elements are in decreasing order
-	if(j >= vector.length)
-	 return false;
+		//terminate if all elements are in decreasing order
+		if(j < 0)
+			return false;
 
-	//find i
-	while(vector[i] <= vector[j])
-	 i++;
 
-	//increase (swap)
-	temp = vector[j];
-	vector[j] = vector[i];
-	vector[i] = temp;
+		//find i
+		while(vector[i] >= vector[j])
+			i--;
 
-	//reverse left-hand elements
-	for(j -= 1, i = 0; j >= i;  j--, i++)
-	 {
-	 temp = vector[j];
-	 vector[j] = vector[i];
-	 vector[i] = temp;
-	 }
+		//increase (swap)
+		temp = vector[j];
+		vector[j] = vector[i];
+		vector[i] = temp;
 
-	return true;
+		//reverse left-hand elements
+		//reverse right-hand elements
+		for(j += 1, i = vector.length - 1; j < i;  j++, i--)
+		{
+			temp = vector[j];
+			vector[j] = vector[i];
+			vector[i] = temp;
+		}
+
+		return true;
 	}
-	
+
 
 }

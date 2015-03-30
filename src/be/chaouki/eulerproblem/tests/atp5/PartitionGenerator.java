@@ -26,13 +26,13 @@ public class PartitionGenerator {
 	
     private static void partition(int n, int max, byte vect[], int ind, PartitionUser pu) {
         if (n == 0) {
-        	// vect nows contains the desire partition. except it may contains right side zeros 
-        	// Example, one of the partitions of 6 is [4 2 0 0 0 0]. the following lines copy all 
-        	// non zeros into a new vector that will be passed to the usePartition() method.
+        	// vect nows contains the desired partition. except it may contain right sided zeros 
+        	// Example, one of the partitions of 6 is [4 2 0 0 0 0]. the following lines make a trimed copy
+        	// of the vector that will be passed to the usePartition() method.
         	byte partitionLength=0;
     		while(partitionLength<vect.length && vect[partitionLength]!=0)
     			partitionLength++;
-            pu.usePartition(Arrays.copyOf(vect, partitionLength), vect.length); //Treatment on the vector
+            pu.usePartition(Arrays.copyOf(vect, partitionLength)); //Treatment on the vector
             return;
         }
   

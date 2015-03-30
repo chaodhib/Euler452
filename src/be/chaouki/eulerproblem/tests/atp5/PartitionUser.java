@@ -14,14 +14,16 @@ public class PartitionUser {
 	private long count;
 
 	private int n ,k;
+	private int I;
 	private byte[] eqSol;
 	
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 	
-	public PartitionUser(int size, int k, int n){
+	public PartitionUser(int size, int I, int k, int n){
 		countT=0;
 		eqSol=new byte[size];
+		this.I=I;
 		this.n=n;
 		this.k=k;
 	}
@@ -33,7 +35,7 @@ public class PartitionUser {
 	 * @param partitionVector
 	 * @param I
 	 */
-	public void usePartition(byte[] partitionVector, int I) {
+	public void usePartition(byte[] partitionVector) {
 		if(!isSolution(partitionVector))
 			return;
 		

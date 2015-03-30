@@ -60,7 +60,7 @@ public class Launcher {
 			//we will work on the vectors n=(k-I, ... ) <=> eqSol=(...) with the sum(eqSol_i)=i for i from 1 to eqSol.length
 			
 			int indMax=(int) (n/Math.pow(2, I-1));
-			PartitionUser pu=new PartitionUser(indMax, k, n);
+			PartitionUser pu=new PartitionUser(indMax, I, k, n);
 			// we start by computing the partitions of I
 			// and for each partition, we generate all permutations
 			// in a certain order. The order will later help us skip

@@ -10,7 +10,7 @@ public class Launcher {
 	
 	private static long solutionCount = 0;
 	
-	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.2310^9
+	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.23*10^9
 	private static final long MOD_VALUE_L=1234567891;
 	
 	private static BigInteger factorialSave[];

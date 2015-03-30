@@ -17,8 +17,12 @@ La troisème version (Attempt3) arrive à ressoudre le problèmes avec des valeu
 
 22/02/2015 Avec les nouvelles améliorations, 10^6 a été résolu pour la premiere fois ! Le calcul a pris une heure et demie.
 
+Le projet n�cessite d'utiliser Maven.
+
 * EN
 
 Attemps at solving the 452th problem in the Euler Project
 
-Link to the problem: https://projecteuler.net/problem=452
+Link to the problem: https://projecteuler.net/problem=452.
+
+The project uses Maven.

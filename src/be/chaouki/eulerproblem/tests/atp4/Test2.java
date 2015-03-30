@@ -13,7 +13,7 @@ public class Test2 {
 			k[i]=i+1;
 		System.out.println(Arrays.toString(k));
 		long x[]=new long[1];
-		x[0]=Long.parseUnsignedLong("0111", 2);
+//		x[0]=Long.parseUnsignedLong("0111", 2); // <=== !!!!!NECESSARY LINE BUT NEEDS JAVA 1.8!!!!!!
 		
 		boolean cdt=true;
 		while(compteur<20)
@@ -34,7 +34,7 @@ public class Test2 {
 		 if (v==0) // then overflow in v, or x==0
 		   return false; // signal that next k-combination cannot be represented
 		 xA[0] = v +(((v^xA[0])/u)>>2); // v^x = 0'11^a10^b, (v^x)/u = 0'0^b1^{a+2}, and x <- x'100^b1^a
-		 System.out.println(Long.toUnsignedString(xA[0], 2));
+//		 System.out.println(Long.toUnsignedString(xA[0], 2)); // <=== !!!!!NECESSARY LINE BUT NEEDS JAVA 1.8!!!!!!
 		 compteur++;
 		 return true; // successful completion
 	}

@@ -6,7 +6,8 @@ import java.util.Arrays;
  * http://introcs.cs.princeton.edu/java/23recursion/Partition.java.html
  * 
  * This version uses recursivity. Therefore its probably not very efficient for high values of N.
- * But it doesnt matter here because we only need to get the partition of values up to 29 (case where n=m=10^9).
+ * But it doesnt matter here because we only need to get the partition of values up to 29 (case where n=m=10^9),
+ * which this algorithm can accomplish in a matter of milliseconds.
  * 
  * @author Chaouki
  *

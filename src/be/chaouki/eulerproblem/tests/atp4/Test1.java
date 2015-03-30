@@ -85,17 +85,17 @@ public class Test1 {
 		
 		// INT = MULTIPLYEXACT(INT, INT)
 		debut= System.nanoTime();
-		for(int j=0;j<100 ; j++)
-		for(int i=0;i<1000000 ; i++)
-			a=Math.multiplyExact(7, 54324354);
+//		for(int j=0;j<100 ; j++)
+//		for(int i=0;i<1000000 ; i++)
+//			a=Math.multiplyExact(7, 54324354); // NEEDS JAVA 1.8
 		fin= System.nanoTime();
 		System.out.println(" et le calcul a pris: "+ (fin-debut)/1000000 +"ms");
 		
 		// LONG = MULTIPLYEXACT(LONG, LONG)
 		debut= System.nanoTime();
-		for(int j=0;j<100 ; j++)
-		for(int i=0;i<1000000 ; i++)
-			b=Math.multiplyExact(7L, 54324354L);
+//		for(int j=0;j<100 ; j++)
+//		for(int i=0;i<1000000 ; i++)
+//			b=Math.multiplyExact(7L, 54324354L); // NEEDS JAVA 1.8
 		fin= System.nanoTime();
 		System.out.println(" et le calcul a pris: "+ (fin-debut)/1000000 +"ms");
 		

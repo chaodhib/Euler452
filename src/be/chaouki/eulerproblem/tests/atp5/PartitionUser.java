@@ -36,10 +36,10 @@ public class PartitionUser {
 	 * @param I
 	 */
 	public void usePartition(byte[] partitionVector) {
+		if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PARTITION----");
+		
 		if(!isSolution(partitionVector))
 			return;
-		
-		if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+"---NEW PARTITION----");
 		count=0;
 		
 		do{
@@ -50,8 +50,8 @@ public class PartitionUser {
 			for(int i=0; i<partitionVector.length ; i++)
 				eqSol[i]=partitionVector[i];
 			//and clean the right side of the vector unaffected by the copy of partitionVector
-			for(int i=partitionVector.length ; i<eqSol.length ; i++)
-				eqSol[i]=0;
+//			for(int i=partitionVector.length ; i<eqSol.length ; i++)
+//				eqSol[i]=0;
 			
 			findPermuts((byte)partitionVector.length, 0);
 		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector) && isSolution(partitionVector)); 
@@ -69,34 +69,11 @@ public class PartitionUser {
 		}
 	}
 
-	/*
-	private void findPermuts(byte length, int startInd) {
-		int saveStartInd=startInd;
-		while(isSolution() && length>0){
-			// treatment
-			if(length==1){
-				count++;
-				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
-			}
-			findPermuts((byte) (length-1), startInd+1);
-			
-			// check if there is one more shift to the right possible
-			if(startInd+length+1>eqSol.length)
-				break;
-			// if so, do it
-			for(int i=startInd+length ; i>startInd ; i--)
-				eqSol[i]=eqSol[i-1];
-			eqSol[startInd]=0;
-			startInd++;
-		}
-		// after the final shift, restore the initial state
-		for(int i=0 ; saveStartInd!=startInd && i<length ; i++){
-			eqSol[saveStartInd+i]=eqSol[startInd+i];
-			eqSol[startInd+i]=0;
-		}
-	}
-	*/
-	
+	/** This method needs to receive eqSol in a solution state.
+	 * 
+	 * @param length
+	 * @param startInd
+	 */
 	private void findPermuts(byte length, int startInd) {
 		// apply last possible shift
 		

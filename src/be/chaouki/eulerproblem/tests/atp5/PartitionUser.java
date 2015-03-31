@@ -75,10 +75,29 @@ public class PartitionUser {
 	 * @param startInd
 	 */
 	private void findPermuts(byte length, int startInd) {
+		byte movingValues[]=new byte[length];
+		for(int i=0 ; i<length ; i++){
+			movingValues[i]=eqSol[i+startInd];
+			eqSol[i+startInd]=0;
+		}
 		// apply last possible shift
+		applyValueTransfer(eqSol.length-length, movingValues);
 		
-		// test if solution
+		// test if solution and reply the original state (the state at the start of the method)
+		boolean isSolution=isSolution();
+		desapplyValueTransfer(eqSol.length-length, length);
+//		applyValueTransfer(startInd, movingValues);
 		
+		// if not solution, we use a binary search to find the highest ind for which eqSol is solution
+		int highestSolutionInd=binarySearch(startInd, eqSol.length-length, movingValues);
+		
+		if(length==1){
+			;
+		} else{
+			;
+		}
+		
+		/*
 		int saveStartInd=startInd;
 		while(isSolution() && length>0){
 			// treatment
@@ -97,22 +116,30 @@ public class PartitionUser {
 			eqSol[startInd]=0;
 			startInd++;
 		}
-		// after the final shift, restore the initial state
-		for(int i=0 ; saveStartInd!=startInd && i<length ; i++){
-			eqSol[saveStartInd+i]=eqSol[startInd+i];
-			eqSol[startInd+i]=0;
-		}
+		// after the final shift, restore the initial state of eqSol
+		if(saveStartInd!=startInd)
+			for(int i=0 ; i<length ; i++){
+				eqSol[saveStartInd+i]=eqSol[startInd+i];
+				eqSol[startInd+i]=0;
+			}
+		*/
 	}
 	
-	private int binarySearch(byte[] eqSol, int lo, int hi) {
+	/**
+	 * eqSol must be received in a "neutral" state. the state before a transformation
+	 * @param lo
+	 * @param hi
+	 * @return
+	 */
+	private int binarySearch(int lo, int hi, byte v[]) {
 		while (lo<hi-1) {
 		    // the index solution should be in [lo..hi[
 		    int mid = lo + (hi - lo) / 2;
 		    
 		    // test then put eqSol back into its original state.
-		    eqSol[mid]++;
+		    applyValueTransfer(mid, v);
 		    boolean isSolution=isSolution();
-		    eqSol[mid]--;
+		    desapplyValueTransfer(mid, v.length);
 		    
 		    if(isSolution)
 		    	lo = mid;
@@ -121,6 +148,15 @@ public class PartitionUser {
 		}
 		
 		return lo;
+	}
+	
+	private void applyValueTransfer(int startInd, byte v[]){
+		for(int i=0 ; i<v.length ; i++)
+			eqSol[startInd+i]=v[i];
+	}
+	private void desapplyValueTransfer(int startInd, int length){
+		for(int i=0 ; i<length ; i++)
+			eqSol[startInd+i]=0;
 	}
 	
 	private boolean isSolution(){

@@ -43,7 +43,7 @@ public class Launcher {
 
 	private static void generateCombinations(int n, int k) {
 		//eqSol doesnt contain the first element of the working vector.
-		//example: if we are working on n=(X Y 0) then eqSol={Y, 0). The first element is kept in memory differently (i)
+		//example: if we are working on n=(X Y 0) then eqSol={Y, 0). The first element is kept in memory differently
 		//and its value is much more larger than a byte's capasity.
 		byte eqSol[]; 
 		
@@ -57,7 +57,7 @@ public class Launcher {
 		
 		final int limit=(int) (Math.log(n)/Math.log(2.0));
 		for(int I=2  ; I<=limit ; I++){
-			//we will work on the vectors n=(k-I, ... ) <=> eqSol=(...) with the sum(eqSol_i)=i for i from 1 to eqSol.length
+			//we will work on the vectors n=(k-I, ... ) <=> eqSol=(...) with the sum(eqSol_i)=I for i from 1 to eqSol.length
 			
 			int indMax=(int) (n/Math.pow(2, I-1));
 			PartitionUser pu=new PartitionUser(indMax, I, k, n);

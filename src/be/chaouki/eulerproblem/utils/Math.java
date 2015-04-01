@@ -2,6 +2,8 @@ package be.chaouki.eulerproblem.utils;
 
 public class Math {
 	
+	public static long sumArithmeticSeq(long n){ return n*(n+1)/2L; } 
+	
 	public final static int GEN_NEXT=0;
 	public final static int GEN_TERM=1;
 	public final static int GEN_EMPTY=2;

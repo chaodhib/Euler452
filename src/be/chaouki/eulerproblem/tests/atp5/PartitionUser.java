@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import com.google.common.math.BigIntegerMath;
 
+import be.chaouki.eulerproblem.utils.Math;
 import be.chaouki.eulerproblem.utils.Tools;
 
 public class PartitionUser {
@@ -83,46 +84,66 @@ public class PartitionUser {
 		// apply last possible shift
 		applyValueTransfer(eqSol.length-length, movingValues);
 		
-		// test if solution and reply the original state (the state at the start of the method)
+		// test if solution
 		boolean isSolution=isSolution();
 		desapplyValueTransfer(eqSol.length-length, length);
-//		applyValueTransfer(startInd, movingValues);
+		
+		// if solution, bingo, a lot of steps can be skipped. we can upgrade the solution count and return.
+		if(isSolution){
+			int lengthMovingValues=eqSol.length-startInd;
+			long addCount=0;
+			
+			for(int i=lengthMovingValues-length+1 ; i>0 ; i--)
+				addCount+=i*(i+1);
+			addCount/=2L;
+
+//			if(Launcher.USE_MODULO)
+//				addCount%=MOD_VALUE_L;
+			count+=addCount;
+			if(Launcher.USE_MODULO)
+				count%=MOD_VALUE_L;
+			
+			applyValueTransfer(startInd, movingValues);
+			return;
+		}
 		
 		// if not solution, we use a binary search to find the highest ind for which eqSol is solution
 		int highestSolutionInd=binarySearch(startInd, eqSol.length-length, movingValues);
-		
+		applyValueTransfer(startInd, movingValues); //restore state
+		// and we operate as usual
 		if(length==1){
-			;
-		} else{
-			;
-		}
-		
-		/*
-		int saveStartInd=startInd;
-		while(isSolution() && length>0){
-			// treatment
-			if(length==1){
-				count++;
-				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
-			}
-			findPermuts((byte) (length-1), startInd+1);
+			long addCount=highestSolutionInd-startInd+1;
+//			if(Launcher.USE_MODULO)
+//				addCount%=MOD_VALUE_L; 
+			count+=addCount;
 			
-			// check if there is one more shift to the right possible
-			if(startInd+length+1>eqSol.length)
-				break;
-			// if so, do it
-			for(int i=startInd+length ; i>startInd ; i--)
-				eqSol[i]=eqSol[i-1];
-			eqSol[startInd]=0;
-			startInd++;
-		}
-		// after the final shift, restore the initial state of eqSol
-		if(saveStartInd!=startInd)
-			for(int i=0 ; i<length ; i++){
-				eqSol[saveStartInd+i]=eqSol[startInd+i];
-				eqSol[startInd+i]=0;
+			if(Launcher.USE_MODULO)
+				count%=MOD_VALUE_L;
+			
+			return;
+			
+		} else{
+			int saveStartInd=startInd;
+			while(startInd<=highestSolutionInd){
+				findPermuts((byte) (length-1), startInd+1);
+				
+				// check if it is possible to shift one more time to the right 
+				if(startInd+length+1>eqSol.length)
+					break;
+				// if so, do it
+				for(int i=startInd+length ; i>startInd ; i--)
+					eqSol[i]=eqSol[i-1];
+				eqSol[startInd]=0;
+				startInd++;
 			}
-		*/
+			// after the final shift, restore the initial state of eqSol
+			if(saveStartInd!=startInd){
+				for(int i=0 ; i<length ; i++){
+					eqSol[saveStartInd+i]=eqSol[startInd+i];
+					eqSol[startInd+i]=0;
+				}
+			}
+		}
 	}
 	
 	/**

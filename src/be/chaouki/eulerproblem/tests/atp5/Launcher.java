@@ -20,8 +20,8 @@ public class Launcher {
 		 *  m					<=>	n
 		 *  n					<=>	k
 		 */
-		int m=100 , n=m;
-		while(true){
+		int m=12800 , n=m;
+		do{
 			long debut = System.nanoTime();
 			generateCombinations(m,n);
 			long fin = System.nanoTime();
@@ -29,9 +29,9 @@ public class Launcher {
 			System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+m+" , k="+n);
 			
 			solutionCount=0;
-			m*=2;
+			m+=1;
 			n=m;
-		}
+		}while(true);
 	}
 	
 	private static void prepFactorials(int n) {
@@ -55,8 +55,9 @@ public class Launcher {
 		
 		if(USE_MODULO) solutionCount%=MOD_VALUE_L;
 		
-		final int limit=(int) (Math.log(n)/Math.log(2.0));
-		for(int I=2  ; I<=limit ; I++){
+		final int LIMIT=(int) (Math.log(n)/Math.log(2.0));
+		for(int I=2  ; I<=LIMIT ; I++){
+			if(OUTPUT) System.out.println("---NEW I:"+I+"---");
 			//we will work on the vectors n=(k-I, ... ) <=> eqSol=(...) with the sum(eqSol_i)=I for i from 1 to eqSol.length
 			
 			int indMax=(int) (n/Math.pow(2, I-1));

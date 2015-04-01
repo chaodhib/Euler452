@@ -28,7 +28,7 @@ public class Test11 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 100, k = n;
+		int n = 12800, k = n;
 		
 		// Warm-up so the order of testing doesnt influence the results - last a few seconds
 //		for(int j=0;j<10000 ; j++)
@@ -36,7 +36,7 @@ public class Test11 {
 //				long a=463543*54324354;
 //		}
 		
-		while(true){
+		do{
 			long debut = System.nanoTime();
 			gen_comb_w_rep(n, k);
 			long fin = System.nanoTime();
@@ -44,9 +44,9 @@ public class Test11 {
 			System.out.println("le calcul a pris: " + (fin - debut) / 1000000+ "ms pour n="+n+" , k="+k);
 			
 			compteur=0;
-			n*=2;
+			n+=1;
 			k=n;
-		}
+		}while(true);
 	}
 	
 	public static void gen_comb_w_rep(int n, int k) {

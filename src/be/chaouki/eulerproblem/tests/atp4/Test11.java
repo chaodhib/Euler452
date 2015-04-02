@@ -28,7 +28,7 @@ public class Test11 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream("output.txt"))));
-		int n = 12800, k = n;
+		int n = 12959, k = n;
 		
 		// Warm-up so the order of testing doesnt influence the results - last a few seconds
 //		for(int j=0;j<10000 ; j++)
@@ -46,7 +46,7 @@ public class Test11 {
 			compteur=0;
 			n+=1;
 			k=n;
-		}while(true);
+		}while(false);
 	}
 	
 	public static void gen_comb_w_rep(int n, int k) {

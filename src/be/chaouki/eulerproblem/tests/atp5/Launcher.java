@@ -12,17 +12,16 @@ public class Launcher {
 	
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891"); //1.23*10^9
 	private static final long MOD_VALUE_L=1234567891;
-	
-	private static BigInteger factorialSave[];
 
 	public static void main(String[] args) {
 		/*	website notation	|||	notation used in this program
 		 *  m					<=>	n
 		 *  n					<=>	k
 		 */
-		int m=12800 , n=m;
+		int m=12959 , n=m;
 		do{
 			long debut = System.nanoTime();
+//			prepFactorials(n);
 			generateCombinations(m,n);
 			long fin = System.nanoTime();
 			System.out.println(solutionCount);
@@ -31,16 +30,16 @@ public class Launcher {
 			solutionCount=0;
 			m+=1;
 			n=m;
-		}while(true);
+		}while(false);
 	}
 	
 	private static void prepFactorials(int n) {
 		int limit=(int) (Math.log(n)/Math.log(2.0));
-		factorialSave=new BigInteger[limit];
+		PartitionUser.factorialSave=new BigInteger[limit];
 		for(int i=1 ; i<=limit ; i++)
-			factorialSave[i-1]=BigIntegerMath.factorial(i);
+			PartitionUser.factorialSave[i-1]=BigIntegerMath.factorial(i);
 	}
-
+	
 	private static void generateCombinations(int n, int k) {
 		//eqSol doesnt contain the first element of the working vector.
 		//example: if we are working on n=(X Y 0) then eqSol={Y, 0). The first element is kept in memory differently
@@ -55,12 +54,12 @@ public class Launcher {
 		
 		if(USE_MODULO) solutionCount%=MOD_VALUE_L;
 		
-		final int LIMIT=(int) (Math.log(n)/Math.log(2.0));
+		final int LIMIT=(int) (Math.log(n)/Math.log(2.0)); System.out.println("LIMIT: "+LIMIT);
 		for(int I=2  ; I<=LIMIT ; I++){
 			if(OUTPUT) System.out.println("---NEW I:"+I+"---");
 			//we will work on the vectors n=(k-I, ... ) <=> eqSol=(...) with the sum(eqSol_i)=I for i from 1 to eqSol.length
 			
-			int indMax=(int) (n/Math.pow(2, I-1));
+			int indMax=(int) (n/Math.pow(2, I-1)); System.out.println(indMax);
 			PartitionUser pu=new PartitionUser(indMax, I, k, n);
 			// we start by computing the partitions of I
 			// and for each partition, we generate all permutations

@@ -7,6 +7,7 @@ import be.chaouki.eulerproblem.utils.Tools;
 public class Tests {
 
 	public static void main(String[] args) {
+		/*
 		int n=400;
 		byte vect2[]={1,2,3};
 		do{
@@ -19,6 +20,16 @@ public class Tests {
 		do{
 			System.out.println(Arrays.toString(vect)+" "+!Tools.prodAboveLimitESShifted(vect, n));
 		} while(PermutationGenerator.gen_perm_rep_colex_next(vect));
+		*/
+		
+		int n=5, m=n;
+		int I=3;
+		int indMax=(int) (n/Math.pow(2, I-1));
+		byte eqSol[]={2, 2};
+		new Launcher();
+		PartitionUser pu=new PartitionUser(indMax, I, n, m);
+		pu.setEqSol(eqSol);
+//		pu.findPermuts((byte) 2, 0);
 		
 	}
 

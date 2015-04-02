@@ -21,6 +21,8 @@ public class PartitionUser {
 	private static final BigInteger MOD_VALUE=new BigInteger("1234567891");
 	private static final long MOD_VALUE_L=1234567891;
 	
+	public static BigInteger factorialSave[];
+	
 	public PartitionUser(int size, int I, int k, int n){
 		countT=0;
 		eqSol=new byte[size];
@@ -58,6 +60,11 @@ public class PartitionUser {
 		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector) && isSolution(partitionVector)); 
 		// generate next permutation in colexicographic order & test whether or not it's a solution
 		
+		/// clean up of eqSol for later method calls on the same PartitionUser object
+		for(int i=0 ; i<partitionVector.length ; i++)
+			eqSol[i]=0;
+		
+		// update of the total count
 		if(count>0){
 			if(Launcher.OUTPUT) System.out.println(Arrays.toString(partitionVector)+", count="+count);
 			
@@ -75,7 +82,15 @@ public class PartitionUser {
 	 * @param length
 	 * @param startInd
 	 */
-	private void findPermuts(byte length, int startInd) {
+	/*public void findPermuts(byte length, int startInd) { //TODO: put private back after testing
+		if(!isSolution())
+			throw new AssertionError();
+		
+		if(eqSol.length==length){
+			count++;
+			return;
+		}
+		
 		byte movingValues[]=new byte[length];
 		for(int i=0 ; i<length ; i++){
 			movingValues[i]=eqSol[i+startInd];
@@ -88,12 +103,12 @@ public class PartitionUser {
 		boolean isSolution=isSolution();
 		desapplyValueTransfer(eqSol.length-length, length);
 		
-		// if solution, bingo, a lot of steps can be skipped. we can upgrade the solution count and return.
+		// if solution, bingo, a lot of steps can be skipped. we can update the solution count and return.
 		if(isSolution){
-			int lengthMovingValues=eqSol.length-startInd;
+			int lengthMovableValues=eqSol.length-startInd;
 			long addCount=0;
 			
-			for(int i=lengthMovingValues-length+1 ; i>0 ; i--)
+			for(int i=lengthMovableValues-length+1 ; i>0 ; i--)
 				addCount+=i*(i+1);
 			addCount/=2L;
 
@@ -103,7 +118,7 @@ public class PartitionUser {
 			if(Launcher.USE_MODULO)
 				count%=MOD_VALUE_L;
 			
-			applyValueTransfer(startInd, movingValues);
+			applyValueTransfer(startInd, movingValues); //restore state
 			return;
 		}
 		
@@ -144,6 +159,33 @@ public class PartitionUser {
 				}
 			}
 		}
+	}*/
+	
+	private void findPermuts(byte length, int startInd) {
+		int saveStartInd=startInd;
+		while(isSolution(eqSol) && length>0){
+			// treatment
+			if(length==1){
+				count++;
+				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
+			}
+			findPermuts((byte) (length-1), startInd+1);
+			
+			// check if there is one more shift to the right possible
+			if(startInd+length+1>eqSol.length)
+				break;
+			// if so, do it
+			for(int i=startInd+length ; i>startInd ; i--)
+				eqSol[i]=eqSol[i-1];
+			eqSol[startInd]=0;
+			startInd++;
+		}
+		// after the final shift, restore the initial state
+		for(int i=0 ; saveStartInd!=startInd && i<length ; i++){
+			eqSol[saveStartInd+i]=eqSol[startInd+i];
+			eqSol[startInd+i]=0;
+		}
+		
 	}
 	
 	/**
@@ -215,6 +257,15 @@ public class PartitionUser {
 
 	public long getCountT() {
 		return countT;
+	}
+
+	//TODO: to be removed after debugging
+	public byte[] getEqSol() {
+		return eqSol;
+	}
+
+	public void setEqSol(byte[] eqSol) {
+		this.eqSol = eqSol;
 	}
 
 }

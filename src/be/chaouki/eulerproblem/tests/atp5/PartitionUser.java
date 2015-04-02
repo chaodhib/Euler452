@@ -55,9 +55,9 @@ public class PartitionUser {
 			//and clean the right side of the vector unaffected by the copy of partitionVector
 //			for(int i=partitionVector.length ; i<eqSol.length ; i++)
 //				eqSol[i]=0;
-			
-			findPermuts((byte)partitionVector.length, 0);
-		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector) && isSolution(partitionVector)); 
+			if(isSolution(partitionVector))
+				findPermuts((byte)partitionVector.length, 0);
+		} while(PermutationGenerator.gen_perm_rep_colex_next(partitionVector)); 
 		// generate next permutation in colexicographic order & test whether or not it's a solution
 		
 		/// clean up of eqSol for later method calls on the same PartitionUser object
@@ -82,7 +82,7 @@ public class PartitionUser {
 	 * @param length
 	 * @param startInd
 	 */
-	/*public void findPermuts(byte length, int startInd) { //TODO: put private back after testing
+	public void findPermuts(byte length, int startInd) { //TODO: put private back after testing
 		if(!isSolution())
 			throw new AssertionError();
 		
@@ -159,33 +159,6 @@ public class PartitionUser {
 				}
 			}
 		}
-	}*/
-	
-	private void findPermuts(byte length, int startInd) {
-		int saveStartInd=startInd;
-		while(isSolution(eqSol) && length>0){
-			// treatment
-			if(length==1){
-				count++;
-				if(Launcher.OUTPUT) System.out.println(Arrays.toString(eqSol)+" "+Tools.prodAboveLimitESShifted(eqSol, n));
-			}
-			findPermuts((byte) (length-1), startInd+1);
-			
-			// check if there is one more shift to the right possible
-			if(startInd+length+1>eqSol.length)
-				break;
-			// if so, do it
-			for(int i=startInd+length ; i>startInd ; i--)
-				eqSol[i]=eqSol[i-1];
-			eqSol[startInd]=0;
-			startInd++;
-		}
-		// after the final shift, restore the initial state
-		for(int i=0 ; saveStartInd!=startInd && i<length ; i++){
-			eqSol[saveStartInd+i]=eqSol[startInd+i];
-			eqSol[startInd+i]=0;
-		}
-		
 	}
 	
 	/**

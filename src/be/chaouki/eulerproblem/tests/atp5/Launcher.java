@@ -18,7 +18,7 @@ public class Launcher {
 		 *  m					<=>	n
 		 *  n					<=>	k
 		 */
-		int m=12959 , n=m;
+		int m=12960 , n=m;
 		do{
 			long debut = System.nanoTime();
 //			prepFactorials(n);
